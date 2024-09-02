@@ -1,0 +1,19 @@
+disabled = false
+languageCode = "en"
+languageName = "English"
+weight = 1
+title = "CyanScholar"
+
+[params]
+displayName = "EN"
+isoCode = "en"
+rtl = false
+dateFormat = "2006 January 2"
+logo = "star.svg"
+
+[params.author]
+name = "Cyan Wu"
+image = "cyan.jpg"
+headline = "CyanScholar"
+# links = "https://github.com/CyanStarNight"
+# bio = "待补充"
