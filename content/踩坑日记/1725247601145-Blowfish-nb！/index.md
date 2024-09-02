@@ -4,6 +4,9 @@ date: 2024-09-02
 draft: false
 description: "a description"
 tags: ["example", "tag"]
+series: ["Documentation"]
+series_order: 11
+
 ---
  an example to get you started
 # This is a heading

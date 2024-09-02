@@ -1,0 +1,8 @@
+@font-face {
+    font-family: font;
+    src: url('/fonts/mkzyt.otf');
+}
+
+html {
+    font-family: font;
+}

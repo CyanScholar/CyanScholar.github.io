@@ -9,7 +9,8 @@ displayName = "CN"
 isoCode = "zh-cn"
 rtl = false
 dateFormat = "2006 January 2"
-logo = "star.svg"
+logo = "icon.png"
+hasCJKLanguage = true
 
 [params.author]
 name = "空青"

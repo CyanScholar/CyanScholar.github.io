@@ -1,0 +1,35 @@
+[[main]]
+none = "none"
+
+[[footer]]
+none = "none"
+# config/_default/menus.toml
+
+[[main]]
+  pre = "blogger"
+  name = "Blogs"
+  pageRef = "posts"
+  weight = 10
+
+[[main]]
+  pre = "tag"
+  name = "Tags"
+  pageRef = "tags"
+  weight = 20
+
+[[main]]
+  pre = "bars"
+  name = "Topics"
+  pageRef = "topics"
+  weight = 30
+
+[[main]]
+  pre = "github"
+  name = "GitHub"
+  url = "https://github.com/CyanStarNight/CyanStarNight.github.io"
+  weight = 40
+
+[[footer]]
+  name = "Tags"
+  pageRef = "tags"
+  weight = 10

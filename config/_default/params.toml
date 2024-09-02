@@ -32,15 +32,15 @@ homepageImage = "NightLight.jpg"
 
 [article]
 showDate = true
-showViews = false
+showViews = true
 showLikes = false
 showDateOnlyInArticle = false
 showDateUpdated = false
-showAuthor = true
+showAuthor = false
 showHero = false
 layoutBackgroundBlur = true
 layoutBackgroundHeaderSpace = true
-showBreadcrumbs = false
+showBreadcrumbs = true
 showDraftLabel = true
 showEdit = false
 editAppendPath = true
@@ -50,21 +50,21 @@ showPagination = true
 invertPagination = false
 showReadingTime = true
 showTableOfContents = false
-showTaxonomies = false
+showTaxonomies = true
 showAuthorsBadges = false
 showWordCount = true
-showZenMode = false
+showZenMode = true
 
 [list]
 showHero = false
 layoutBackgroundBlur = true
 layoutBackgroundHeaderSpace = true
 showBreadcrumbs = false
-showSummary = false
-showViews = false
+showSummary = true
+showViews = true
 showLikes = false
 showTableOfContents = false
-showCards = false
+showCards = true
 orderByWeight = false
 groupByYear = true
 cardView = false
@@ -94,6 +94,13 @@ cardView = true
 cardViewScreenWidth = false
 
 [firebase]
+apiKey = "AIzaSyB77xi017FNYJ3SgJW632o9duzIFUcLaT0"
+authDomain = "cyanscholar-b0c70.firebaseapp.com"
+projectId = "cyanscholar-b0c70"
+storageBucket = "cyanscholar-b0c70.appspot.com"
+messagingSenderId = "876406388750"
+appId = "1:876406388750:web:a078693c0d209a57ce645f"
+measurementId = "G-Q7791256NC"
 
 [fathomAnalytics]
 
