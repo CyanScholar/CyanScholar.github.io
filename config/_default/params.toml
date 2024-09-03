@@ -33,7 +33,7 @@ homepageImage = "NightLight.jpg"
 [article]
 showDate = true
 showViews = true
-showLikes = false
+showLikes = true
 showDateOnlyInArticle = false
 showDateUpdated = false
 showAuthor = false
@@ -49,7 +49,7 @@ showHeadingAnchors = true
 showPagination = true
 invertPagination = false
 showReadingTime = true
-showTableOfContents = false
+showTableOfContents = true
 showTaxonomies = true
 showAuthorsBadges = false
 showWordCount = true
