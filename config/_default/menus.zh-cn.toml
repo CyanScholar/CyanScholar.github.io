@@ -30,6 +30,6 @@ none = "none"
   weight = 50
 
 [[footer]]
-  name = "Tags"
-  pageRef = "tags"
+  name = "Categories"
+  pageRef = "categories"
   weight = 10
