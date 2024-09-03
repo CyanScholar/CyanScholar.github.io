@@ -19,12 +19,6 @@ none = "none"
 
 [[main]]
   pre = "bars"
-  name = "Categories"
-  pageRef = "categories"
-  weight = 30
-
-[[main]]
-  pre = "bars"
   name = "Series"
   pageRef = "series"
   weight = 40

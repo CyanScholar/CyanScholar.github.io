@@ -4,7 +4,7 @@ date: 2024-09-03
 draft: false
 tags: ["GPU", "CUDA"]
 category: "博客"
-series: ["GPU & CUDA 粗浅理解"]
+series: ["GPU&CUDA粗浅理解"]
 series_order: 1
 ---
 # 基础概念

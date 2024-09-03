@@ -5,11 +5,14 @@ draft: false
 summary: "了解更多关于我和我创建博客的初衷。"
 tags: ["分享", "博客"]
 ---
- an example to get you started
-# This is a heading
-## This is a subheading
-### This is a subsubheading
-#### This is a subsubsubheading
-This is a paragraph with **bold** and *italic* text.
-Check more at [Blowfish documentation](https://blowfish.page/)
-undefined
+博客网站相比于notion这些笔记软件，其实对自己的价值并不高，不够方便。主要还是对他人的便利。
+而且相比于某乎等平台更加纯粹，不用考虑审查等问题，想说什么都行。
+
+我觉得做博客最重要的就是分享，分享什么呢？
+1. 在学习过程中踩过的坑，或者自己发现的新方案。
+2. 一些愿意和大家说的感言。
+
+总的来说就是尝试贡献更多的中文技术博客，同时又方便分享给需要的人（一个链接甩过去）。
+
+其次就是有激励作用吧。看到满满的博客，就会有成就感，能鼓舞到自己，输出倒逼输入。
+加油吧。
