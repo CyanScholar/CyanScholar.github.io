@@ -30,8 +30,8 @@
   
   
   
-  <link type="text/css" rel="stylesheet" href="/css/main.bundle.min.1c1e978aa85f16c3444d560875527293184bcb8d02ee080cc7437ce2b3d48e7c738e9e859014947c091de76edf2bedad8db67a4f7fd720bda4dbbacb8210118c.css"
-    integrity="sha512-HB6XiqhfFsNETVYIdVJykxhLy40C7ggMx0N84rPUjnxzjp6FkBSUfAkd527fK&#43;2tjbZ6T3/XIL2k27rLghARjA==" />
+  <link type="text/css" rel="stylesheet" href="/css/main.bundle.min.aae4ab0954fc7f7114dd14fabe5a76a6cf645fd2fabe5cef37d61d1fd5d62e9e65e2793e72c6cc5d3da9792419995b3533cbbdc333bc3897f31f77d72a4a27f7.css"
+    integrity="sha512-quSrCVT8f3EU3RT6vlp2ps9kX9L6vlzvN9YdH9XWLp5l4nk&#43;csbMXT2peSQZmVs1M8u9wzO8OJfzH3fXKkon9w==" />
   
   
   <script type="text/javascript" src="/js/appearance.min.516a16745bea5a9bd011138d254cc0fd3973cd55ce6e15f3dec763e7c7c2c7448f8fe7b54cca811cb821b0c7e12cd161caace1dd794ac3d34d40937cbcc9ee12.js"
@@ -567,6 +567,44 @@
       
 
 
+
+
+
+
+ 
+  
+   
+  
+ 
+
+
+
+<div id="hero" class="h-[150px] md:h-[200px]"></div>
+
+
+
+    
+    <div class="fixed inset-x-0 top-0 h-[800px] single_hero_background nozoom"
+    style="background-image:url(/NightLight_hu17735699676094508580.jpg);">
+    
+
+
+    <div class="absolute inset-0 bg-gradient-to-t from-neutral dark:from-neutral-800 to-transparent mix-blend-normal">
+    </div>
+    <div
+        class="absolute inset-0 opacity-60 bg-gradient-to-t from-neutral dark:from-neutral-800 to-neutral-100 dark:to-neutral-800 mix-blend-normal">
+    </div>
+</div>
+
+<div id="background-blur" class="fixed opacity-0 inset-x-0 top-0 h-full single_hero_background nozoom backdrop-blur-2xl"></div>
+<script>
+    window.addEventListener('scroll', function (e) {
+        var scroll = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+        var background_blur = document.getElementById('background-blur');
+        background_blur.style.opacity = (scroll / 300)
+    });
+</script>
+
  <header>
   
   <h1 class="mt-5 text-4xl font-extrabold text-neutral-900 dark:text-neutral">GPU&amp;CUDA粗浅理解</h1>
@@ -618,12 +656,13 @@
   
 
   
-  <h2 class="mt-12 mb-3 text-2xl font-bold text-neutral-700 first:mt-8 dark:text-neutral-300">
-    2024
-  </h2>
-  <section class="w-full grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-    
-    
+  <div class="relative w-screen max-w-[1600px] px-[30px]" style="left: calc(max(-50vw,-800px) + 50%);">
+    <h2 class="mt-12 mb-3 text-2xl font-bold text-neutral-700 first:mt-8 dark:text-neutral-300">
+      2024
+    </h2>
+    <section class="w-full grid gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+      
+      
 
   <a href="/posts/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-1/" class="min-w-full">
     
@@ -788,8 +827,8 @@
     </div>
   </a>
 
-    
-    
+      
+      
 
   <a href="/posts/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-2/" class="min-w-full">
     
@@ -954,8 +993,9 @@
     </div>
   </a>
 
-    
-  </section>
+      
+    </section>
+  </div>
   
 
   

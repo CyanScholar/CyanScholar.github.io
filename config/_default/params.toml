@@ -46,7 +46,7 @@ showHero = true
 heroStyle = "background"
 layoutBackgroundBlur = true
 layoutBackgroundHeaderSpace = true
-showBreadcrumbs = true
+showBreadcrumbs = false
 showDraftLabel = true
 showEdit = false
 editAppendPath = true
@@ -61,14 +61,16 @@ showTaxonomies = true
 showAuthorsBadges = false
 showWordCount = true
 showZenMode = true
+constrainItemsWidth = "false"
 
 [list]
-showHero = false
+showHero = true
+heroStyle = "background"
 layoutBackgroundBlur = true
 layoutBackgroundHeaderSpace = true
 showBreadcrumbs = false
 showSummary = false
-showViews = true
+showViews = false
 showLikes = false
 showTableOfContents = false
 showCards = true
@@ -83,7 +85,8 @@ excludedKinds = [ "taxonomy", "term" ]
 
 [taxonomy]
 showTermCount = true
-showHero = false
+showHero = true
+heroStyle = "background"
 showBreadcrumbs = false
 showViews = false
 showLikes = false
@@ -91,14 +94,15 @@ showTableOfContents = false
 cardView = false
 
 [term]
-showHero = false
+showHero = true
+heroStyle = "background"
 showBreadcrumbs = false
 showViews = false
 showLikes = false
 showTableOfContents = true
 groupByYear = true
 cardView = true
-cardViewScreenWidth = false
+cardViewScreenWidth = true
 
 [firebase]
 apiKey = "AIzaSyB77xi017FNYJ3SgJW632o9duzIFUcLaT0"
