@@ -1,6 +1,6 @@
 colorScheme = "blowfish"
 defaultAppearance = "dark"
-autoSwitchAppearance = "flase"
+autoSwitchAppearance = "true"
 enableSearch = true
 enableCodeCopy = true
 replyByEmail = false
@@ -8,9 +8,13 @@ disableImageOptimization = false
 disableTextInHeader = false
 giteaDefaultServer = "https://git.fsfe.org"
 forgejoDefaultServer = "https://v8.next.forgejo.org"
+defaultBackgroundImage = "NightLight.jpg"
+defaultFeaturedImage = "lake.jpg"
+smartTOC = false
+seriesOpened = true
 
 [header]
-layout = "basic"
+layout = "fixed"
 
 [footer]
 showMenu = true
@@ -36,20 +40,23 @@ showViews = true
 showLikes = true
 showDateOnlyInArticle = false
 showDateUpdated = false
-showAuthor = false
-showHero = false
+showAuthor = true
+showAuthorBottom = true
+showHero = true
+heroStyle = "background"
 layoutBackgroundBlur = true
 layoutBackgroundHeaderSpace = true
 showBreadcrumbs = true
 showDraftLabel = true
 showEdit = false
 editAppendPath = true
-seriesOpened = true
 showHeadingAnchors = true
 showPagination = true
 invertPagination = false
 showReadingTime = true
 showTableOfContents = true
+showRelatedContent = true
+relatedContentLimit = 3
 showTaxonomies = true
 showAuthorsBadges = false
 showWordCount = true
@@ -69,7 +76,7 @@ orderByWeight = false
 groupByYear = true
 cardView = false
 cardViewScreenWidth = false
-constrainItemsWidth = "prose"
+constrainItemsWidth = "false"
 
 [sitemap]
 excludedKinds = [ "taxonomy", "term" ]

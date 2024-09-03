@@ -78,7 +78,7 @@ print(f"CPU 总核心（逻辑）数量: {cpu_total_cores}")
 此外，流处理器（SM）算是GPU的一个计算模块，它通常包含若干 CUDA 核心（例如，64 个 CUDA 核心），以及其他组件如寄存器、共享内存等。GPU 中的 SM 数量决定了 GPU 的并行处理能力。\
 至于一个SM具体包含多少CUDA核心，这取决于GPU架构，下面是NVIDIA GPU 架构的演进：
 
-![image.png](featured.png)\
+![image.png](image.png)\
 值得留意的是，我们熟知的V100、T100、A100、H100正是Volta、Turning、Ampere、Hopper的代表产品。\
 此外，4代架构提供的Tensor Core在计算精度上的支持也是不同的，越往后提供越多的精度。
 

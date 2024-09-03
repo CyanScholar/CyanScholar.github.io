@@ -59,17 +59,16 @@ int main(int argc, char *argv[]){
 
   return 0;
 }
+```
 在这个程序中，dkern内核被启动后，GPU开始执行，而CPU在执行usleep(my_delay)后继续进行下一次循环。这种设计使得CPU和GPU可以并行工作。
 当my_delay较小时，CPU在启动内核后很快进入下一次循环，并立即启动下一个GPU内核。这种情况下，GPU可以连续地处理任务，保持高利用率。
-总而言之，my_delay参数的值越大，CPU每次启动新任务的间隔时间更长，GPU在两个任务之间空闲的时间变多，即GPU有更多时间处于空转状态。所以这个程序可以验证nvidia-smi展示的是不是时间利用率。
-```
+总而言之，my_delay参数的值越大，CPU每次启动新任务的间隔时间更长，GPU在两个任务之间空闲的时间变多，即GPU有更多时间处于空转状态。所以这个程序可以验证nvidia-smi展示的是不是时间利用率。\
 接下来对程序进行编译和运行：
 ```sh
 nvcc -o testUtil testUtil.cu
 ```
 编译后，就可以通过设置my_delay的值来控制这个程序在GPU的活动时间，在3090机器上，`./delay_program 100`可以达到100%的utilization，但是`./delay_program 1000`就只有44%的utilization.
-![image.png](image.png)
-![image-2.png](featured.png)
+![image-2.png](imag2.png)
 
 ### 那如何获取空间利用率呢？
 
@@ -82,7 +81,7 @@ nvcc -o testUtil testUtil.cu
 
 首先说nvidia profile，其实展示效果相当于tensorboard profile，但更加全面、快速。
 踩坑1：nvprof不支持8.0以上的算力 \
-![image.png](learnGPU-2_files/image.png)
+![image.png](image.png)
 
 Nsight System是nvprofile的升级版，对应的指令是`nsys`。
 
