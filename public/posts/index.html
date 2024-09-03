@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="zh-cn" dir="ltr" class="scroll-smooth" data-default-appearance="light"
-  data-auto-appearance="true"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+<html lang="zh-cn" dir="ltr" class="scroll-smooth" data-default-appearance="dark"
+  data-auto-appearance="flase"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   <meta charset="utf-8" />
   
   <meta http-equiv="content-language" content="zh-cn" />
@@ -28,8 +28,10 @@
   
   
   
-  <link type="text/css" rel="stylesheet" href="/css/main.bundle.min.aae4ab0954fc7f7114dd14fabe5a76a6cf645fd2fabe5cef37d61d1fd5d62e9e65e2793e72c6cc5d3da9792419995b3533cbbdc333bc3897f31f77d72a4a27f7.css"
-    integrity="sha512-quSrCVT8f3EU3RT6vlp2ps9kX9L6vlzvN9YdH9XWLp5l4nk&#43;csbMXT2peSQZmVs1M8u9wzO8OJfzH3fXKkon9w==" />
+  
+  
+  <link type="text/css" rel="stylesheet" href="/css/main.bundle.min.021eff426aaae64c8803927433abf7de62248341bf578f0a583f5a7965875c1138d6f1ab5bad88fdbf9874bd7a5eb98078218a19510dc201abc3a20d61debdd5.css"
+    integrity="sha512-Ah7/Qmqq5kyIA5J0M6v33mIkg0G/V48KWD9aeWWHXBE41vGrW62I/b&#43;YdL16XrmAeCGKGVENwgGrw6INYd691Q==" />
   
   
   <script type="text/javascript" src="/js/appearance.min.516a16745bea5a9bd011138d254cc0fd3973cd55ce6e15f3dec763e7c7c2c7448f8fe7b54cca811cb821b0c7e12cd161caace1dd794ac3d34d40937cbcc9ee12.js"
@@ -55,10 +57,10 @@
   
   
   
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/star.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="/star-32x32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/star-16x16.png" />
+<link rel="manifest" href="/site.webmanifest" />
   
   
   
@@ -119,6 +121,29 @@
   <meta name="theme-color"/>
   
   
+  
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script>
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB77xi017FNYJ3SgJW632o9duzIFUcLaT0",
+      authDomain: "AIzaSyB77xi017FNYJ3SgJW632o9duzIFUcLaT0",
+      projectId: "cyanscholar-b0c70",
+      storageBucket: "cyanscholar-b0c70.appspot.com",
+      messagingSenderId: "876406388750",
+      appId: "1:876406388750:web:a078693c0d209a57ce645f",
+      measurementId: "G-Q7791256NC"
+    };
+
+    var app = firebase.initializeApp(firebaseConfig);
+    var db = firebase.firestore();
+    var auth = firebase.auth();
+
+  </script>
+  
+  
 </head>
 <body
   class="flex flex-col h-screen px-6 m-auto text-lg leading-7 max-w-7xl bg-neutral text-neutral-900 dark:bg-neutral-800 dark:text-neutral sm:px-14 md:px-24 lg:px-32 scrollbar-thin scrollbar-track-neutral-200 scrollbar-thumb-neutral-400 dark:scrollbar-track-neutral-800 dark:scrollbar-thumb-neutral-600">
@@ -129,10 +154,7 @@
   </div>
   
   
-  <div class="min-h-[148px]"></div>
-<div class="fixed inset-x-0 pl-[24px] pr-[24px] bg-neutral dark:bg-neutral-800" style="z-index:100">
-  <div class="relative max-w-[64rem] ml-auto mr-auto">
-    <div style="padding-left:0;padding-right:0;padding-top:2px;padding-bottom:3px"
+  <div style="padding-left:0;padding-right:0;padding-top:2px;padding-bottom:3px"
     class="main-menu flex items-center justify-between px-4 py-6 sm:px-6 md:justify-start space-x-3">
     
     
@@ -142,9 +164,8 @@
             <span class="sr-only">CyanScholar</span>
 
             
-            <span class="logo object-scale-down object-left nozoom">
-                <?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1725248871372" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1453" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200"><path d="M512 0c282.76736 0 512 229.23264 512 512s-229.23264 512-512 512S0 794.76736 0 512 229.23264 0 512 0z" fill="#324D5B" p-id="1454"></path><path d="M564.79744 842.55744l346.68544-650.62912a514.78528 514.78528 0 0 0-75.4688-76.31872L170.55744 548.47488l394.24 294.08256z" fill="#565D50" p-id="1455"></path><path d="M900.77184 179.03616a515.59424 515.59424 0 0 0-68.36224-66.26304L399.36 382.07488l51.02592 182.2208 202.09664 8.18176 248.28928-393.44128z" fill="#736A47" p-id="1456"></path><path d="M832.3584 112.73216L399.99488 381.44l39.89504 191.13984 431.55456-425.09312a516.10624 516.10624 0 0 0-39.08608-34.75456z" fill="#8A7440" p-id="1457"></path><path d="M194.57024 20.51072c-6.144 55.27552-36.864 86.016-92.16 92.16 55.296 6.144 86.02624 36.87424 92.16 92.16 6.144-55.28576 36.87424-86.016 92.17024-92.16-55.296-6.144-86.02624-36.88448-92.17024-92.16z m624.64 604.16c-4.78208 42.98752-28.672 66.88768-71.69024 71.68 43.01824 4.77184 66.90816 28.672 71.69024 71.68 4.78208-43.008 28.672-66.90816 71.69024-71.68-43.01824-4.79232-66.90816-28.69248-71.69024-71.68z" fill="#EFC75E" p-id="1458"></path><path d="M901.13024 368.66048C897.72032 399.37024 880.64 416.45056 849.92 419.87072c30.72 3.39968 47.80032 20.48 51.21024 51.2 3.40992-30.72 20.48-47.80032 51.2-51.2-30.72-3.42016-47.79008-20.50048-51.2-51.21024zM174.08 327.69024c-2.73408 24.56576-16.384 38.23616-40.96 40.97024 24.576 2.73408 38.22592 16.39424 40.96 40.96 2.73408-24.56576 16.384-38.22592 40.96-40.96-24.56576-2.73408-38.22592-16.40448-40.96-40.97024zM481.28 92.18048c-3.40992 30.70976-20.48 47.79008-51.2 51.2 30.72 3.40992 47.79008 20.50048 51.2 51.21024 3.40992-30.70976 20.48-47.80032 51.2-51.21024-30.70976-3.40992-47.77984-20.49024-51.2-51.2z" fill="#5B717C" p-id="1459"></path><path d="M417.77152 781.94688l124.65152 65.85344c12.88192 6.8096 27.93472-4.17792 25.46688-18.59584l-23.808-139.45856a17.68448 17.68448 0 0 1 5.05856-15.60576l100.84352-98.77504c10.42432-10.20928 4.6592-27.98592-9.728-30.08512l-139.3664-20.34688a17.53088 17.53088 0 0 1-13.2096-9.64608l-62.32064-126.89408c-6.44096-13.1072-25.04704-13.1072-31.488 0l-62.32064 126.89408c-2.56 5.21216-7.49568 8.81664-13.21984 9.64608l-139.3664 20.34688c-14.39744 2.0992-20.14208 19.87584-9.728 30.08512l100.84352 98.77504c4.13696 4.05504 6.02112 9.89184 5.04832 15.60576l-23.808 139.45856c-2.4576 14.41792 12.58496 25.40544 25.47712 18.59584l124.64128-65.85344a17.5104 17.5104 0 0 1 16.3328 0z" fill="#EFC75E" p-id="1460"></path></svg>
-            </span>
+            <img src="/icon.png" width="32" height="32"
+                class="logo max-h-[5rem] max-w-[5rem] object-scale-down object-left nozoom" alt="CyanScholar" />
             
 
         </a>
@@ -177,7 +198,7 @@
     </span>
     
     <p class="text-base font-medium" title="">
-        Blog
+        Blogs
     </p>
 </a>
 
@@ -185,7 +206,29 @@
 
             
             
-  <a href=""  class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+  <a href="/tags/"  class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+    
+    <span  class="mr-1" >
+        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M48 32H197.5C214.5 32 230.7 38.74 242.7 50.75L418.7 226.7C443.7 251.7 443.7 292.3 418.7 317.3L285.3 450.7C260.3 475.7 219.7 475.7 194.7 450.7L18.75 274.7C6.743 262.7 0 246.5 0 229.5V80C0 53.49 21.49 32 48 32L48 32zM112 176C129.7 176 144 161.7 144 144C144 126.3 129.7 112 112 112C94.33 112 80 126.3 80 144C80 161.7 94.33 176 112 176z"/></svg>
+
+  </span>
+
+
+    </span>
+    
+    <p class="text-base font-medium" title="">
+        Tags
+    </p>
+</a>
+
+
+
+            
+            
+  <a href="/categories/"  class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
     
     <span  class="mr-1" >
         
@@ -199,7 +242,7 @@
     </span>
     
     <p class="text-base font-medium" title="">
-        Topics
+        Categories
     </p>
 </a>
 
@@ -207,29 +250,7 @@
 
             
             
-  <a href=""  class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
-    
-    <span  class="mr-1" >
-        
-
-  <span class="relative block icon">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 32C114.6 32 .0272 125.1 .0272 240c0 49.63 21.35 94.98 56.97 130.7c-12.5 50.37-54.27 95.27-54.77 95.77c-2.25 2.25-2.875 5.734-1.5 8.734C1.979 478.2 4.75 480 8 480c66.25 0 115.1-31.76 140.6-51.39C181.2 440.9 217.6 448 256 448c141.4 0 255.1-93.13 255.1-208S397.4 32 256 32z"/></svg>
-
-  </span>
-
-
-    </span>
-    
-    <p class="text-base font-medium" title="">
-        Discussion
-    </p>
-</a>
-
-
-
-            
-            
-  <a href="https://github.com/nunocoracao/blowfish"  target="_blank"  class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+  <a href="https://github.com/CyanStarNight/CyanStarNight.github.io"  target="_blank"  class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
     
     <span  class="mr-1" >
         
@@ -283,6 +304,32 @@
 
             
             
+            <div
+                class="ltr:mr-14 rtl:ml-14 flex items-center">
+                <button id="appearance-switcher" aria-label="Dark mode switcher" type="button" class="text-base hover:text-primary-600 dark:hover:text-primary-400">
+                    <div class="flex items-center justify-center dark:hidden">
+                        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+
+  </span>
+
+
+                    </div>
+                    <div class="items-center justify-center hidden dark:flex">
+                        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+
+  </span>
+
+
+                    </div>
+                </button>
+            </div>
+            
 
         </nav>
         <div class="flex md:hidden items-center space-x-5 md:ml-12 h-12">
@@ -307,6 +354,29 @@
             
 
             
+            
+            <button id="appearance-switcher-mobile" aria-label="Dark mode switcher" type="button" class="text-base hover:text-primary-600 dark:hover:text-primary-400" style="margin-right:5px">
+                <div class="flex items-center justify-center dark:hidden">
+                    
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+
+  </span>
+
+
+                </div>
+                <div class="items-center justify-center hidden dark:flex">
+                    
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+
+  </span>
+
+
+                </div>
+            </button>
             
 
         </div>
@@ -361,7 +431,7 @@
         </div>
         
         <p class="text-bg font-bg" title="">
-            Blog
+            Blogs
         </p>
     </a>
 </li>
@@ -373,7 +443,33 @@
 
                     
   <li class="mt-1">
-    <a href=""  class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+    <a href="/tags/"  class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+        
+        <div  class="mr-2" >
+            
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M48 32H197.5C214.5 32 230.7 38.74 242.7 50.75L418.7 226.7C443.7 251.7 443.7 292.3 418.7 317.3L285.3 450.7C260.3 475.7 219.7 475.7 194.7 450.7L18.75 274.7C6.743 262.7 0 246.5 0 229.5V80C0 53.49 21.49 32 48 32L48 32zM112 176C129.7 176 144 161.7 144 144C144 126.3 129.7 112 112 112C94.33 112 80 126.3 80 144C80 161.7 94.33 176 112 176z"/></svg>
+
+  </span>
+
+
+        </div>
+        
+        <p class="text-bg font-bg" title="">
+            Tags
+        </p>
+    </a>
+</li>
+
+
+
+
+                    
+
+                    
+  <li class="mt-1">
+    <a href="/categories/"  class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
         
         <div  class="mr-2" >
             
@@ -387,7 +483,7 @@
         </div>
         
         <p class="text-bg font-bg" title="">
-            Topics
+            Categories
         </p>
     </a>
 </li>
@@ -399,33 +495,7 @@
 
                     
   <li class="mt-1">
-    <a href=""  class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
-        
-        <div  class="mr-2" >
-            
-
-  <span class="relative block icon">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 32C114.6 32 .0272 125.1 .0272 240c0 49.63 21.35 94.98 56.97 130.7c-12.5 50.37-54.27 95.27-54.77 95.77c-2.25 2.25-2.875 5.734-1.5 8.734C1.979 478.2 4.75 480 8 480c66.25 0 115.1-31.76 140.6-51.39C181.2 440.9 217.6 448 256 448c141.4 0 255.1-93.13 255.1-208S397.4 32 256 32z"/></svg>
-
-  </span>
-
-
-        </div>
-        
-        <p class="text-bg font-bg" title="">
-            Discussion
-        </p>
-    </a>
-</li>
-
-
-
-
-                    
-
-                    
-  <li class="mt-1">
-    <a href="https://github.com/nunocoracao/blowfish"  target="_blank"  class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+    <a href="https://github.com/CyanStarNight/CyanStarNight.github.io"  target="_blank"  class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
         
         <div  class="mr-2" >
             
@@ -477,9 +547,6 @@
 
 
 
-  </div>
-</div>
-
   
   <div class="relative flex flex-col grow">
     <main id="main-content" class="grow">
@@ -512,8 +579,27 @@
 
 
 
+
+
 <div class="flex flex-row flex-wrap items-center">
   
+  
+  <span>
+  
+  
+    
+    
+  
+  <span id="null" class="animate-pulse inline-block text-transparent max-h-3 rounded-full mt-[-2px] align-middle bg-neutral-300 dark:bg-neutral-400" title="views">loading</span>
+  <span class="inline-block align-text-bottom">
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+<path fill="currentColor" d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg>
+  </span>
+
+</span>
+</span>
   
 </div>
 
@@ -533,11 +619,501 @@
 
   </section>
   
-  <section class="mt-10 prose dark:prose-invert">
-    <p class="py-8 border-t">
-      <em>这里还没有任何文章可以列出。</em>
-    </p>
-  </section>
+
+    
+    
+    
+    
+    
+
+    
+
+    <section class="space-y-10 w-full">
+      
+        
+        
+        <h2 class="mt-12 text-2xl font-bold text-neutral-700 first:mt-8 dark:text-neutral-300">
+          2024
+        </h2>
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a class="flex flex-wrap article border border-neutral-200 dark:border-neutral-700 border-2 rounded-md overflow-hidden max-w-prose" href="/posts/1725327172611-%E5%86%99%E5%8D%9A%E5%AE%A2%E7%9A%84%E6%84%8F%E4%B9%89/">
+    
+        
+        <div class="w-full md:w-auto h-full thumbnail nozoom " style="background-image:url(/posts/1725327172611-%E5%86%99%E5%8D%9A%E5%AE%A2%E7%9A%84%E6%84%8F%E4%B9%89/featured_hu8651244935819034054.jpg);"></div>
+        
+      <div class=" p-4">
+      <div class="items-center text-left text-xl font-semibold">
+        
+        <div class="font-bold text-xl text-neutral-800 decoration-primary-500 hover:underline hover:underline-offset-2 dark:text-neutral"
+          href="/posts/1725327172611-%E5%86%99%E5%8D%9A%E5%AE%A2%E7%9A%84%E6%84%8F%E4%B9%89/">写博客的意义</div>
+        
+        
+        
+      </div>
+      <div class="text-sm text-neutral-500 dark:text-neutral-400">
+        
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+<div class="flex flex-row flex-wrap items-center">
+  
+  
+  <time datetime="2024-09-03T00:00:00&#43;00:00">2024 September 3</time><span class="px-2 text-primary-500">&middot;</span><span>41 字</span><span class="px-2 text-primary-500">&middot;</span><span title="预计阅读">1 分钟</span><span class="px-2 text-primary-500">&middot;</span><span>
+  
+  
+    
+    
+      
+      
+        
+        
+      
+      
+    
+  
+  <span id="views_posts\1725327172611-写博客的意义\index.md" class="animate-pulse inline-block text-transparent max-h-3 rounded-full mt-[-2px] align-middle bg-neutral-300 dark:bg-neutral-400" title="views">loading</span>
+  <span class="inline-block align-text-bottom">
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+<path fill="currentColor" d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg>
+  </span>
+
+</span>
+</span>
+  
+
+  
+  
+</div>
+
+
+
+
+
+<div class="flex flex-row flex-wrap items-center">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <span style="margin-top:0.5rem" class="mr-2" onclick="window.open(&#34;/tags/%E5%88%86%E4%BA%AB/&#34;,'_self');">
+    <span class="flex" style="cursor: pointer;">
+  <span class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
+    分享
+  </span>
+</span>
+  </span>
+  
+  <span style="margin-top:0.5rem" class="mr-2" onclick="window.open(&#34;/tags/%E5%8D%9A%E5%AE%A2/&#34;,'_self');">
+    <span class="flex" style="cursor: pointer;">
+  <span class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
+    博客
+  </span>
+</span>
+  </span>
+  
+  
+  
+  
+</div>
+
+
+
+
+      </div>
+      
+    </div>
+  </a>
+
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a class="flex flex-wrap article border border-neutral-200 dark:border-neutral-700 border-2 rounded-md overflow-hidden max-w-prose" href="/posts/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-1/">
+    
+        
+        <div class="w-full md:w-auto h-full thumbnail nozoom " style="background-image:url(/posts/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-1/featured_hu4043568010859537750.png);"></div>
+        
+      <div class=" p-4">
+      <div class="items-center text-left text-xl font-semibold">
+        
+        <div class="font-bold text-xl text-neutral-800 decoration-primary-500 hover:underline hover:underline-offset-2 dark:text-neutral"
+          href="/posts/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-1/">GPU & CUDA 粗浅理解(一)</div>
+        
+        
+        
+      </div>
+      <div class="text-sm text-neutral-500 dark:text-neutral-400">
+        
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+<div class="flex flex-row flex-wrap items-center">
+  
+  
+  <time datetime="2024-09-03T00:00:00&#43;00:00">2024 September 3</time><span class="px-2 text-primary-500">&middot;</span><span>456 字</span><span class="px-2 text-primary-500">&middot;</span><span title="预计阅读">3 分钟</span><span class="px-2 text-primary-500">&middot;</span><span>
+  
+  
+    
+    
+      
+      
+        
+        
+      
+      
+    
+  
+  <span id="views_posts\GPU粗浅理解\learnGPU-1\index.md" class="animate-pulse inline-block text-transparent max-h-3 rounded-full mt-[-2px] align-middle bg-neutral-300 dark:bg-neutral-400" title="views">loading</span>
+  <span class="inline-block align-text-bottom">
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+<path fill="currentColor" d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg>
+  </span>
+
+</span>
+</span>
+  
+
+  
+  
+</div>
+
+
+
+
+
+<div class="flex flex-row flex-wrap items-center">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <span style="margin-top:0.5rem" class="mr-2" onclick="window.open(&#34;/tags/gpu/&#34;,'_self');">
+    <span class="flex" style="cursor: pointer;">
+  <span class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
+    GPU
+  </span>
+</span>
+  </span>
+  
+  <span style="margin-top:0.5rem" class="mr-2" onclick="window.open(&#34;/tags/cuda/&#34;,'_self');">
+    <span class="flex" style="cursor: pointer;">
+  <span class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
+    CUDA
+  </span>
+</span>
+  </span>
+  
+  
+  
+  
+</div>
+
+
+
+
+      </div>
+      
+    </div>
+  </a>
+
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a class="flex flex-wrap article border border-neutral-200 dark:border-neutral-700 border-2 rounded-md overflow-hidden max-w-prose" href="/posts/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-2/">
+    
+        
+        <div class="w-full md:w-auto h-full thumbnail nozoom " style="background-image:url(/posts/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-2/featured_hu2065076223173780902.png);"></div>
+        
+      <div class=" p-4">
+      <div class="items-center text-left text-xl font-semibold">
+        
+        <div class="font-bold text-xl text-neutral-800 decoration-primary-500 hover:underline hover:underline-offset-2 dark:text-neutral"
+          href="/posts/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-2/">GPU & CUDA 粗浅理解(二)</div>
+        
+        
+        
+      </div>
+      <div class="text-sm text-neutral-500 dark:text-neutral-400">
+        
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+<div class="flex flex-row flex-wrap items-center">
+  
+  
+  <time datetime="2024-09-03T00:00:00&#43;00:00">2024 September 3</time><span class="px-2 text-primary-500">&middot;</span><span>236 字</span><span class="px-2 text-primary-500">&middot;</span><span title="预计阅读">2 分钟</span><span class="px-2 text-primary-500">&middot;</span><span>
+  
+  
+    
+    
+      
+      
+        
+        
+      
+      
+    
+  
+  <span id="views_posts\GPU粗浅理解\learnGPU-2\index.md" class="animate-pulse inline-block text-transparent max-h-3 rounded-full mt-[-2px] align-middle bg-neutral-300 dark:bg-neutral-400" title="views">loading</span>
+  <span class="inline-block align-text-bottom">
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+<path fill="currentColor" d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg>
+  </span>
+
+</span>
+</span>
+  
+
+  
+  
+</div>
+
+
+
+
+
+<div class="flex flex-row flex-wrap items-center">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <span style="margin-top:0.5rem" class="mr-2" onclick="window.open(&#34;/tags/gpu/&#34;,'_self');">
+    <span class="flex" style="cursor: pointer;">
+  <span class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
+    GPU
+  </span>
+</span>
+  </span>
+  
+  <span style="margin-top:0.5rem" class="mr-2" onclick="window.open(&#34;/tags/cuda/&#34;,'_self');">
+    <span class="flex" style="cursor: pointer;">
+  <span class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
+    CUDA
+  </span>
+</span>
+  </span>
+  
+  
+  
+  
+</div>
+
+
+
+
+      </div>
+      
+    </div>
+  </a>
+
+        
+        
+      
+    </section>
+
+    
+
   
 
     
@@ -552,18 +1128,18 @@
       <ul class="flex flex-col list-none sm:flex-row">
         
         <li class="flex mb-1 ltr:text-right rtl:text-left sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0">
-          <a class="decoration-primary-500 hover:underline hover:decoration-2 hover:underline-offset-2 flex items-center" href=""
+          <a class="decoration-primary-500 hover:underline hover:decoration-2 hover:underline-offset-2 flex items-center" href="/tags/"
             title="">
             
-            
+            Tags
           </a>
         </li>
         
         <li class="flex mb-1 ltr:text-right rtl:text-left sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0">
-          <a class="decoration-primary-500 hover:underline hover:decoration-2 hover:underline-offset-2 flex items-center" href="https://external-link"
+          <a class="decoration-primary-500 hover:underline hover:decoration-2 hover:underline-offset-2 flex items-center" href=""
             title="">
             
-            Privacy
+            
           </a>
         </li>
         
@@ -606,6 +1182,8 @@
   
   
   <script type="text/javascript" src="/js/process.min.ee03488f19c93c2efb199e2e3014ea5f3cb2ce7d45154adb3399a158cac27ca52831db249ede5bb602700ef87eb02434139de0858af1818ab0fb4182472204a4.js" integrity="sha512-7gNIjxnJPC77GZ4uMBTqXzyyzn1FFUrbM5mhWMrCfKUoMdsknt5btgJwDvh&#43;sCQ0E53ghYrxgYqw&#43;0GCRyIEpA=="></script>
+  
+  
   
   
 </footer>

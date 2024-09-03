@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>GPU粗浅理解s on CyanScholar</title>
+    <link>http://localhost:1313/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/</link>
+    <description>Recent content in GPU粗浅理解s on CyanScholar</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <copyright>© 2024 空青</copyright>
+    <lastBuildDate>Tue, 03 Sep 2024 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>GPU &amp; CUDA 粗浅理解(二)</title>
+      <link>http://localhost:1313/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-2/</link>
+      <pubDate>Tue, 03 Sep 2024 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-2/</guid>
+      <description>利用率？ #关于gpu利用率，很多人都存在一些误区。</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:1313/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-2/featured.png" />
+    </item>
+    
+    <item>
+      <title>GPU &amp; CUDA 粗浅理解(一)</title>
+      <link>http://localhost:1313/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-1/</link>
+      <pubDate>Tue, 03 Sep 2024 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-1/</guid>
+      <description>基础概念 #GPU (Graphical Processing Unit)：硬件 CUDA core：处理单元，硬件 Tensor core：乘加融合的处理单元，硬件 SM（Streaming Multiprocessor）：基本计算模块，含多个CUDA core、Tensor core，硬件 CUDA（Compute Unified Device Architecture）：并行计算架构，软/硬件结合 nvcc：GPU程序的编译器，其实就是针对CUDA特殊化的gcc编译器，软件 kernel：一个并行程序，软件 wrap：CUDA执行的基本调度单元，软/硬件结合 core是什么？ #以3090为例，cpu有多少个core？gpu有多少个core？</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:1313/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-1/featured.png" />
+    </item>
+    
+  </channel>
+</rss>

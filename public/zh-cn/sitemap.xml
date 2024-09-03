@@ -3,14 +3,26 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
   <url>
-    <loc>http://localhost:1313/%E8%B8%A9%E5%9D%91%E6%97%A5%E8%AE%B0/1725247601145-blowfish-nb/</loc>
-    <lastmod>2024-09-02T00:00:00+00:00</lastmod>
+    <loc>http://localhost:1313/posts/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-2/</loc>
+    <lastmod>2024-09-03T00:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://localhost:1313/posts/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-1/</loc>
+    <lastmod>2024-09-03T00:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://localhost:1313/posts/</loc>
+    <lastmod>2024-09-03T00:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://localhost:1313/</loc>
-    <lastmod>2024-09-02T00:00:00+00:00</lastmod>
+    <lastmod>2024-09-03T00:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
     <xhtml:link
@@ -25,8 +37,8 @@
     />
   </url>
   <url>
-    <loc>http://localhost:1313/%E8%B8%A9%E5%9D%91%E6%97%A5%E8%AE%B0/</loc>
-    <lastmod>2024-09-02T00:00:00+00:00</lastmod>
+    <loc>http://localhost:1313/posts/1725327172611-%E5%86%99%E5%8D%9A%E5%AE%A2%E7%9A%84%E6%84%8F%E4%B9%89/</loc>
+    <lastmod>2024-09-03T00:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>

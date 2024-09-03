@@ -19,8 +19,8 @@ none = "none"
 
 [[main]]
   pre = "bars"
-  name = "Topics"
-  pageRef = "topics"
+  name = "Categories"
+  pageRef = "categories"
   weight = 30
 
 [[main]]

@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr" class="scroll-smooth" data-default-appearance="dark"
+  data-auto-appearance="flase"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  
+  <meta http-equiv="content-language" content="zh-cn" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  
+  <title>GPU & CUDA 粗浅理解(一) &middot; CyanScholar</title>
+  <meta name="title" content="GPU & CUDA 粗浅理解(一) &middot; CyanScholar" />
+  
+  
+  <meta name="keywords" content="GPU, CUDA, " />
+  
+  
+  <link rel="canonical" href="http://localhost:1313/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-1/" />
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <link type="text/css" rel="stylesheet" href="/css/main.bundle.min.021eff426aaae64c8803927433abf7de62248341bf578f0a583f5a7965875c1138d6f1ab5bad88fdbf9874bd7a5eb98078218a19510dc201abc3a20d61debdd5.css"
+    integrity="sha512-Ah7/Qmqq5kyIA5J0M6v33mIkg0G/V48KWD9aeWWHXBE41vGrW62I/b&#43;YdL16XrmAeCGKGVENwgGrw6INYd691Q==" />
+  
+  
+  <script type="text/javascript" src="/js/appearance.min.516a16745bea5a9bd011138d254cc0fd3973cd55ce6e15f3dec763e7c7c2c7448f8fe7b54cca811cb821b0c7e12cd161caace1dd794ac3d34d40937cbcc9ee12.js"
+    integrity="sha512-UWoWdFvqWpvQERONJUzA/TlzzVXObhXz3sdj58fCx0SPj&#43;e1TMqBHLghsMfhLNFhyqzh3XlKw9NNQJN8vMnuEg=="></script>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script defer type="text/javascript" id="script-bundle" src="/js/main.bundle.min.4760f110524572796446a87b7d1897938225a2419ef7fd0835903f575024d135a3e3d96ee5231c96107f7bce84c8f28fb880a064a7593abadfd3cb2dda11476d.js"
+    integrity="sha512-R2DxEFJFcnlkRqh7fRiXk4IlokGe9/0INZA/V1Ak0TWj49lu5SMclhB/e86EyPKPuICgZKdZOrrf08st2hFHbQ==" data-copy="" data-copied=""></script>
+  
+  
+  
+  <script src="/lib/zoom/zoom.min.fcbc7f7b3dcea96e3b5570cd322c5d7a12d5351c87f9889b1c31745a2cc711df58f6b70795a86d50e63813b236ade916668332c10a70a4ce26f7c0878f525fce.js" integrity="sha512-/Lx/ez3OqW47VXDNMixdehLVNRyH&#43;YibHDF0WizHEd9Y9rcHlahtUOY4E7I2rekWZoMywQpwpM4m98CHj1Jfzg=="></script>
+  
+  
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/star.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="/star-32x32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/star-16x16.png" />
+<link rel="manifest" href="/site.webmanifest" />
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:url" content="http://localhost:1313/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-1/">
+  <meta property="og:site_name" content="CyanScholar">
+  <meta property="og:title" content="GPU & CUDA 粗浅理解(一)">
+  <meta property="og:description" content="基础概念 #GPU (Graphical Processing Unit)：硬件 CUDA core：处理单元，硬件 Tensor core：乘加融合的处理单元，硬件 SM（Streaming Multiprocessor）：基本计算模块，含多个CUDA core、Tensor core，硬件 CUDA（Compute Unified Device Architecture）：并行计算架构，软/硬件结合 nvcc：GPU程序的编译器，其实就是针对CUDA特殊化的gcc编译器，软件 kernel：一个并行程序，软件 wrap：CUDA执行的基本调度单元，软/硬件结合 core是什么？ #以3090为例，cpu有多少个core？gpu有多少个core？">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="gpu粗浅理解">
+    <meta property="article:published_time" content="2024-09-03T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-09-03T00:00:00+00:00">
+    <meta property="article:tag" content="GPU">
+    <meta property="article:tag" content="CUDA">
+    <meta property="og:image" content="http://localhost:1313/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-1/featured.png">
+      <meta property="og:see_also" content="http://localhost:1313/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-2/">
+
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://localhost:1313/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-1/featured.png">
+  <meta name="twitter:title" content="GPU & CUDA 粗浅理解(一)">
+  <meta name="twitter:description" content="基础概念 #GPU (Graphical Processing Unit)：硬件 CUDA core：处理单元，硬件 Tensor core：乘加融合的处理单元，硬件 SM（Streaming Multiprocessor）：基本计算模块，含多个CUDA core、Tensor core，硬件 CUDA（Compute Unified Device Architecture）：并行计算架构，软/硬件结合 nvcc：GPU程序的编译器，其实就是针对CUDA特殊化的gcc编译器，软件 kernel：一个并行程序，软件 wrap：CUDA执行的基本调度单元，软/硬件结合 core是什么？ #以3090为例，cpu有多少个core？gpu有多少个core？">
+
+  
+  <script type="application/ld+json">
+  [{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "articleSection": "GPU粗浅理解s",
+    "name": "GPU \u0026 CUDA 粗浅理解(一)",
+    "headline": "GPU \u0026 CUDA 粗浅理解(一)",
+    
+    "abstract": "基础概念 #\rGPU (Graphical Processing Unit)：硬件 CUDA core：处理单元，硬件 Tensor core：乘加融合的处理单元，硬件 SM（Streaming Multiprocessor）：基本计算模块，含多个CUDA core、Tensor core，硬件 CUDA（Compute Unified Device Architecture）：并行计算架构，软\/硬件结合 nvcc：GPU程序的编译器，其实就是针对CUDA特殊化的gcc编译器，软件 kernel：一个并行程序，软件 wrap：CUDA执行的基本调度单元，软\/硬件结合 core是什么？ #\r以3090为例，cpu有多少个core？gpu有多少个core？",
+    "inLanguage": "zh-cn",
+    "url" : "http:\/\/localhost:1313\/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3\/learngpu-1\/",
+    "author" : {
+      "@type": "Person",
+      "name": "空青"
+    },
+    "copyrightYear": "2024",
+    "dateCreated": "2024-09-03T00:00:00\u002b00:00",
+    "datePublished": "2024-09-03T00:00:00\u002b00:00",
+    
+    "dateModified": "2024-09-03T00:00:00\u002b00:00",
+    
+    "keywords": ["GPU","CUDA"],
+    
+    "mainEntityOfPage": "true",
+    "wordCount": "456"
+  }]
+  </script>
+
+
+  
+  
+  <meta name="author" content="空青" />
+  
+  
+  
+
+<script src="/lib/jquery/jquery.slim.min.03cb160e3cfdb2667a2e2c80d283bebcf63ff8bbc4b629c9ab2babf6fae1d0c07ad470edae783efa4fabda2ac01c58d60e63b98b3c336be8208460f08f4354f5.js" integrity="sha512-A8sWDjz9smZ6LiyA0oO&#43;vPY/&#43;LvEtinJqyur9vrh0MB61HDtrng&#43;&#43;k&#43;r2irAHFjWDmO5izwza&#43;gghGDwj0NU9Q=="></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  <meta name="theme-color"/>
+  
+  
+  
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script>
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB77xi017FNYJ3SgJW632o9duzIFUcLaT0",
+      authDomain: "AIzaSyB77xi017FNYJ3SgJW632o9duzIFUcLaT0",
+      projectId: "cyanscholar-b0c70",
+      storageBucket: "cyanscholar-b0c70.appspot.com",
+      messagingSenderId: "876406388750",
+      appId: "1:876406388750:web:a078693c0d209a57ce645f",
+      measurementId: "G-Q7791256NC"
+    };
+
+    var app = firebase.initializeApp(firebaseConfig);
+    var db = firebase.firestore();
+    var auth = firebase.auth();
+
+  </script>
+  
+  
+</head>
+<body
+  class="flex flex-col h-screen px-6 m-auto text-lg leading-7 max-w-7xl bg-neutral text-neutral-900 dark:bg-neutral-800 dark:text-neutral sm:px-14 md:px-24 lg:px-32 scrollbar-thin scrollbar-track-neutral-200 scrollbar-thumb-neutral-400 dark:scrollbar-track-neutral-800 dark:scrollbar-thumb-neutral-600">
+  <div id="the-top" class="absolute flex self-center">
+    <a class="px-3 py-1 text-sm -translate-y-8 rounded-b-lg bg-primary-200 focus:translate-y-0 dark:bg-neutral-600"
+      href="#main-content"><span
+        class="font-bold text-primary-600 ltr:pr-2 rtl:pl-2 dark:text-primary-400">&darr;</span>跳过正文</a>
+  </div>
+  
+  
+  <div style="padding-left:0;padding-right:0;padding-top:2px;padding-bottom:3px"
+    class="main-menu flex items-center justify-between px-4 py-6 sm:px-6 md:justify-start space-x-3">
+    
+    
+    
+    <div>
+        <a href="/" class="flex">
+            <span class="sr-only">CyanScholar</span>
+
+            
+            <img src="/icon.png" width="32" height="32"
+                class="logo max-h-[5rem] max-w-[5rem] object-scale-down object-left nozoom" alt="CyanScholar" />
+            
+
+        </a>
+    </div>
+    
+    <div class="flex flex-1 items-center justify-between">
+        <nav class="flex space-x-3">
+
+            
+            <a href="/" class="text-base font-medium text-gray-500 hover:text-gray-900">CyanScholar</a>
+            
+
+        </nav>
+        <nav class="hidden md:flex items-center space-x-5 md:ml-12 h-12">
+
+            
+            
+            
+  <a href="/posts/"  class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+    
+    <span  class="mr-1" >
+        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M446.6 222.7c-1.8-8-6.8-15.4-12.5-18.5-1.8-1-13-2.2-25-2.7-20.1-.9-22.3-1.3-28.7-5-10.1-5.9-12.8-12.3-12.9-29.5-.1-33-13.8-63.7-40.9-91.3-19.3-19.7-40.9-33-65.5-40.5-5.9-1.8-19.1-2.4-63.3-2.9-69.4-.8-84.8.6-108.4 10C45.9 59.5 14.7 96.1 3.3 142.9 1.2 151.7.7 165.8.2 246.8c-.6 101.5.1 116.4 6.4 136.5 15.6 49.6 59.9 86.3 104.4 94.3 14.8 2.7 197.3 3.3 216 .8 32.5-4.4 58-17.5 81.9-41.9 17.3-17.7 28.1-36.8 35.2-62.1 4.9-17.6 4.5-142.8 2.5-151.7zm-322.1-63.6c7.8-7.9 10-8.2 58.8-8.2 43.9 0 45.4.1 51.8 3.4 9.3 4.7 13.4 11.3 13.4 21.9 0 9.5-3.8 16.2-12.3 21.6-4.6 2.9-7.3 3.1-50.3 3.3-26.5.2-47.7-.4-50.8-1.2-16.6-4.7-22.8-28.5-10.6-40.8zm191.8 199.8l-14.9 2.4-77.5.9c-68.1.8-87.3-.4-90.9-2-7.1-3.1-13.8-11.7-14.9-19.4-1.1-7.3 2.6-17.3 8.2-22.4 7.1-6.4 10.2-6.6 97.3-6.7 89.6-.1 89.1-.1 97.6 7.8 12.1 11.3 9.5 31.2-4.9 39.4z"/></svg>
+
+  </span>
+
+
+    </span>
+    
+    <p class="text-base font-medium" title="">
+        Blogs
+    </p>
+</a>
+
+
+
+            
+            
+  <a href="/tags/"  class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+    
+    <span  class="mr-1" >
+        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M48 32H197.5C214.5 32 230.7 38.74 242.7 50.75L418.7 226.7C443.7 251.7 443.7 292.3 418.7 317.3L285.3 450.7C260.3 475.7 219.7 475.7 194.7 450.7L18.75 274.7C6.743 262.7 0 246.5 0 229.5V80C0 53.49 21.49 32 48 32L48 32zM112 176C129.7 176 144 161.7 144 144C144 126.3 129.7 112 112 112C94.33 112 80 126.3 80 144C80 161.7 94.33 176 112 176z"/></svg>
+
+  </span>
+
+
+    </span>
+    
+    <p class="text-base font-medium" title="">
+        Tags
+    </p>
+</a>
+
+
+
+            
+            
+  <a href=""  class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+    
+    <span  class="mr-1" >
+        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M0 96C0 78.33 14.33 64 32 64H416C433.7 64 448 78.33 448 96C448 113.7 433.7 128 416 128H32C14.33 128 0 113.7 0 96zM0 256C0 238.3 14.33 224 32 224H416C433.7 224 448 238.3 448 256C448 273.7 433.7 288 416 288H32C14.33 288 0 273.7 0 256zM416 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H416C433.7 384 448 398.3 448 416C448 433.7 433.7 448 416 448z"/></svg>
+
+  </span>
+
+
+    </span>
+    
+    <p class="text-base font-medium" title="">
+        Topics
+    </p>
+</a>
+
+
+
+            
+            
+  <a href="https://github.com/CyanStarNight/CyanStarNight.github.io"  target="_blank"  class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+    
+    <span  class="mr-1" >
+        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+
+  </span>
+
+
+    </span>
+    
+    <p class="text-base font-medium" title="">
+        GitHub
+    </p>
+</a>
+
+
+
+            
+            
+  <a href=""  class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+    
+    <p class="text-base font-medium" title="">
+        
+    </p>
+</a>
+
+
+
+            
+            
+
+            
+
+
+            
+            <button id="search-button" aria-label="Search" class="text-base hover:text-primary-600 dark:hover:text-primary-400"
+                title="">
+                
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+            </button>
+            
+
+
+            
+            
+            <div
+                class="ltr:mr-14 rtl:ml-14 flex items-center">
+                <button id="appearance-switcher" aria-label="Dark mode switcher" type="button" class="text-base hover:text-primary-600 dark:hover:text-primary-400">
+                    <div class="flex items-center justify-center dark:hidden">
+                        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+
+  </span>
+
+
+                    </div>
+                    <div class="items-center justify-center hidden dark:flex">
+                        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+
+  </span>
+
+
+                    </div>
+                </button>
+            </div>
+            
+
+        </nav>
+        <div class="flex md:hidden items-center space-x-5 md:ml-12 h-12">
+
+            <span></span>
+
+            
+
+
+            
+            <button id="search-button-mobile" aria-label="Search" class="text-base hover:text-primary-600 dark:hover:text-primary-400"
+                title="">
+                
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+            </button>
+            
+
+            
+            
+            <button id="appearance-switcher-mobile" aria-label="Dark mode switcher" type="button" class="text-base hover:text-primary-600 dark:hover:text-primary-400" style="margin-right:5px">
+                <div class="flex items-center justify-center dark:hidden">
+                    
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+
+  </span>
+
+
+                </div>
+                <div class="items-center justify-center hidden dark:flex">
+                    
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+
+  </span>
+
+
+                </div>
+            </button>
+            
+
+        </div>
+    </div>
+    <div class="-my-2 -mr-2 md:hidden">
+
+        <label id="menu-button" for="menu-controller" class="block">
+            <input type="checkbox" id="menu-controller" class="hidden" />
+            
+            <div class="cursor-pointer hover:text-primary-600 dark:hover:text-primary-400">
+                
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M0 96C0 78.33 14.33 64 32 64H416C433.7 64 448 78.33 448 96C448 113.7 433.7 128 416 128H32C14.33 128 0 113.7 0 96zM0 256C0 238.3 14.33 224 32 224H416C433.7 224 448 238.3 448 256C448 273.7 433.7 288 416 288H32C14.33 288 0 273.7 0 256zM416 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H416C433.7 384 448 398.3 448 416C448 433.7 433.7 448 416 448z"/></svg>
+
+  </span>
+
+
+            </div>
+            <div id="menu-wrapper" style="padding-top:5px;"
+                class="fixed inset-0 z-30 invisible w-screen h-screen m-0 overflow-auto transition-opacity opacity-0 cursor-default bg-neutral-100/50 backdrop-blur-sm dark:bg-neutral-900/50">
+                <ul
+                    class="flex space-y-2 mt-3 flex-col items-end w-full px-6 py-6 mx-auto overflow-visible list-none ltr:text-right rtl:text-left max-w-7xl">
+
+                    <li>
+                        <span
+                            class="cursor-pointer inline-block align-text-bottom hover:text-primary-600 dark:hover:text-primary-400">
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+
+  </span>
+
+</span>
+                    </li>
+
+                    
+
+                    
+  <li class="mt-1">
+    <a href="/posts/"  class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+        
+        <div  class="mr-2" >
+            
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M446.6 222.7c-1.8-8-6.8-15.4-12.5-18.5-1.8-1-13-2.2-25-2.7-20.1-.9-22.3-1.3-28.7-5-10.1-5.9-12.8-12.3-12.9-29.5-.1-33-13.8-63.7-40.9-91.3-19.3-19.7-40.9-33-65.5-40.5-5.9-1.8-19.1-2.4-63.3-2.9-69.4-.8-84.8.6-108.4 10C45.9 59.5 14.7 96.1 3.3 142.9 1.2 151.7.7 165.8.2 246.8c-.6 101.5.1 116.4 6.4 136.5 15.6 49.6 59.9 86.3 104.4 94.3 14.8 2.7 197.3 3.3 216 .8 32.5-4.4 58-17.5 81.9-41.9 17.3-17.7 28.1-36.8 35.2-62.1 4.9-17.6 4.5-142.8 2.5-151.7zm-322.1-63.6c7.8-7.9 10-8.2 58.8-8.2 43.9 0 45.4.1 51.8 3.4 9.3 4.7 13.4 11.3 13.4 21.9 0 9.5-3.8 16.2-12.3 21.6-4.6 2.9-7.3 3.1-50.3 3.3-26.5.2-47.7-.4-50.8-1.2-16.6-4.7-22.8-28.5-10.6-40.8zm191.8 199.8l-14.9 2.4-77.5.9c-68.1.8-87.3-.4-90.9-2-7.1-3.1-13.8-11.7-14.9-19.4-1.1-7.3 2.6-17.3 8.2-22.4 7.1-6.4 10.2-6.6 97.3-6.7 89.6-.1 89.1-.1 97.6 7.8 12.1 11.3 9.5 31.2-4.9 39.4z"/></svg>
+
+  </span>
+
+
+        </div>
+        
+        <p class="text-bg font-bg" title="">
+            Blogs
+        </p>
+    </a>
+</li>
+
+
+
+
+                    
+
+                    
+  <li class="mt-1">
+    <a href="/tags/"  class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+        
+        <div  class="mr-2" >
+            
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M48 32H197.5C214.5 32 230.7 38.74 242.7 50.75L418.7 226.7C443.7 251.7 443.7 292.3 418.7 317.3L285.3 450.7C260.3 475.7 219.7 475.7 194.7 450.7L18.75 274.7C6.743 262.7 0 246.5 0 229.5V80C0 53.49 21.49 32 48 32L48 32zM112 176C129.7 176 144 161.7 144 144C144 126.3 129.7 112 112 112C94.33 112 80 126.3 80 144C80 161.7 94.33 176 112 176z"/></svg>
+
+  </span>
+
+
+        </div>
+        
+        <p class="text-bg font-bg" title="">
+            Tags
+        </p>
+    </a>
+</li>
+
+
+
+
+                    
+
+                    
+  <li class="mt-1">
+    <a href=""  class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+        
+        <div  class="mr-2" >
+            
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M0 96C0 78.33 14.33 64 32 64H416C433.7 64 448 78.33 448 96C448 113.7 433.7 128 416 128H32C14.33 128 0 113.7 0 96zM0 256C0 238.3 14.33 224 32 224H416C433.7 224 448 238.3 448 256C448 273.7 433.7 288 416 288H32C14.33 288 0 273.7 0 256zM416 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H416C433.7 384 448 398.3 448 416C448 433.7 433.7 448 416 448z"/></svg>
+
+  </span>
+
+
+        </div>
+        
+        <p class="text-bg font-bg" title="">
+            Topics
+        </p>
+    </a>
+</li>
+
+
+
+
+                    
+
+                    
+  <li class="mt-1">
+    <a href="https://github.com/CyanStarNight/CyanStarNight.github.io"  target="_blank"  class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+        
+        <div  class="mr-2" >
+            
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+
+  </span>
+
+
+        </div>
+        
+        <p class="text-bg font-bg" title="">
+            GitHub
+        </p>
+    </a>
+</li>
+
+
+
+
+                    
+
+                    
+  <li class="mt-1">
+    <a href=""  class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+        
+        <p class="text-bg font-bg" title="">
+            
+        </p>
+    </a>
+</li>
+
+
+
+
+                    
+
+                </ul>
+                
+                
+
+            </div>
+        </label>
+    </div>
+</div>
+
+
+
+
+
+  
+  <div class="relative flex flex-col grow">
+    <main id="main-content" class="grow">
+      
+
+
+<article>
+  
+
+  <header id="single_header" class="mt-5 max-w-prose">
+    
+    <ol class="text-sm text-neutral-500 dark:text-neutral-400 print:hidden">
+  
+  
+    
+  
+    
+  
+  <li class="inline hidden">
+    <a
+      class="hover:underline decoration-neutral-300 dark:underline-neutral-600"
+      href="/"
+      >欢迎来到 CyanScholar ！</a
+    ><span class="px-1 text-primary-500">/</span>
+  </li>
+
+  
+  <li class="inline ">
+    <a
+      class="hover:underline decoration-neutral-300 dark:underline-neutral-600"
+      href="/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/"
+      >GPU粗浅理解s</a
+    ><span class="px-1 text-primary-500">/</span>
+  </li>
+
+  
+  <li class="inline hidden">
+    <a
+      class="hover:underline decoration-neutral-300 dark:underline-neutral-600"
+      href="/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-1/"
+      >GPU &amp; CUDA 粗浅理解(一)</a
+    ><span class="px-1 text-primary-500">/</span>
+  </li>
+
+</ol>
+
+
+    
+    <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+      GPU & CUDA 粗浅理解(一)
+    </h1>
+    <div class="mt-1 mb-6 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+      
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<div class="flex flex-row flex-wrap items-center">
+  
+  
+  <time datetime="2024-09-03T00:00:00&#43;00:00">2024 September 3</time><span class="px-2 text-primary-500">&middot;</span><span>456 字</span><span class="px-2 text-primary-500">&middot;</span><span title="预计阅读">3 分钟</span><span class="px-2 text-primary-500">&middot;</span><span>
+  
+  
+    
+    
+      
+      
+        
+        
+      
+      
+    
+  
+  <span id="views_GPU粗浅理解\learnGPU-1\index.md" class="animate-pulse inline-block text-transparent max-h-3 rounded-full mt-[-2px] align-middle bg-neutral-300 dark:bg-neutral-400" title="views">loading</span>
+  <span class="inline-block align-text-bottom">
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+<path fill="currentColor" d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg>
+  </span>
+
+</span>
+</span><span class="px-2 text-primary-500">&middot;</span>
+
+
+<script type="text/javascript" src="/js/zen-mode.min.63c8a202661f4a2063fdc2706685d668e8ea3da613da2224e9da527e5876e4f53dcac39ab60732626fb4151feae5d430d0cf44731e5d3c726522fcc1519c1547.js" integrity="sha512-Y8iiAmYfSiBj/cJwZoXWaOjqPaYT2iIk6dpSflh25PU9ysOatgcyYm&#43;0FR/q5dQw0M9Ecx5dPHJlIvzBUZwVRw=="></script>
+
+<span class="mb-[2px]">
+    <span id="zen-mode-button"
+          class="text-lg hover:text-primary-500"
+          title=""
+          data-title-i18n-disable=""
+          data-title-i18n-enable="">
+        <span class="inline-block align-text-bottom">
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" width="50px" height="50px">
+    <path fill="currentColor" d="M 12.980469 4 C 9.1204688 4 5.9804688 7.14 5.9804688 11 L 6 26 L 9.9804688 26 L 9.9804688 11 C 9.9804688 9.35 11.320469 8 12.980469 8 L 40.019531 8 C 41.679531 8 43.019531 9.35 43.019531 11 L 43.019531 39 C 43.019531 40.65 41.679531 42 40.019531 42 L 29 42 C 29 43.54 28.420938 44.94 27.460938 46 L 40.019531 46 C 43.879531 46 47.019531 42.86 47.019531 39 L 47.019531 11 C 47.019531 7.14 43.879531 4 40.019531 4 L 12.980469 4 z M 7 28 C 4.794 28 3 29.794 3 32 L 3 42 C 3 44.206 4.794 46 7 46 L 23 46 C 25.206 46 27 44.206 27 42 L 27 32 C 27 29.794 25.206 28 23 28 L 7 28 z M 7 32 L 23 32 L 23.001953 42 L 7 42 L 7 32 z"/>
+</svg>
+  </span>
+
+</span>
+    </span>
+</span>
+  
+
+  
+  
+</div>
+
+
+
+
+
+<div class="flex flex-row flex-wrap items-center">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <span style="margin-top:0.5rem" class="mr-2" onclick="window.open(&#34;/tags/gpu/&#34;,'_self');">
+    <span class="flex" style="cursor: pointer;">
+  <span class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
+    GPU
+  </span>
+</span>
+  </span>
+  
+  <span style="margin-top:0.5rem" class="mr-2" onclick="window.open(&#34;/tags/cuda/&#34;,'_self');">
+    <span class="flex" style="cursor: pointer;">
+  <span class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
+    CUDA
+  </span>
+</span>
+  </span>
+  
+  
+  
+  
+</div>
+
+
+
+
+    </div>
+
+    
+    
+    
+    
+    
+
+    
+
+    
+      
+      
+
+      
+
+      
+
+    
+
+  </header>
+  
+  <section class="flex flex-col max-w-full mt-0 prose dark:prose-invert lg:flex-row">
+    
+    
+
+      <div class="min-w-0 min-h-0 max-w-fit">
+        
+        
+<details style="margin-left:0px" class="mt-2 mb-5 overflow-hidden rounded-lg ltr:-ml-5 ltr:pl-5 rtl:-mr-5 rtl:pr-5" >
+    
+    <summary
+        class="py-1 text-lg font-semibold cursor-pointer bg-primary-200 text-neutral-800 ltr:-ml-5 ltr:pl-5 rtl:-mr-5 rtl:pr-5 dark:bg-primary-800 dark:text-neutral-100">
+        71 - 这篇文章属于一个选集。
+    </summary>
+    
+    
+
+
+</details>
+
+
+
+        <div class="article-content max-w-prose mb-20">
+          
+
+<h1 class="relative group">基础概念 
+    <div id="%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5" aria-label="锚点">#</a>
+    </span>        
+    
+</h1>
+<ul>
+<li>GPU (Graphical Processing Unit)：硬件</li>
+<li>CUDA core：处理单元，硬件</li>
+<li>Tensor core：乘加融合的处理单元，硬件</li>
+<li>SM（Streaming Multiprocessor）：基本计算模块，含多个CUDA core、Tensor core，硬件</li>
+<li>CUDA（Compute Unified Device Architecture）：并行计算架构，软/硬件结合</li>
+<li>nvcc：GPU程序的编译器，其实就是针对CUDA特殊化的gcc编译器，软件</li>
+<li>kernel：一个并行程序，软件</li>
+<li>wrap：CUDA执行的基本调度单元，软/硬件结合</li>
+</ul>
+
+
+<h2 class="relative group">core是什么？ 
+    <div id="core%E6%98%AF%E4%BB%80%E4%B9%88" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#core%E6%98%AF%E4%BB%80%E4%B9%88" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+<p>以3090为例，cpu有多少个core？gpu有多少个core？</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">torch</span>
+</span></span><span class="line"><span class="cl"><span class="n">gpu_info</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">get_device_properties</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;GPU 型号: </span><span class="si">{</span><span class="n">gpu_info</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;GPU中的SM(Streaming Multiprocessors)的数量: </span><span class="si">{</span><span class="n">gpu_info</span><span class="o">.</span><span class="n">multi_processor_count</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Core的数量: </span><span class="si">{</span><span class="n">gpu_info</span><span class="o">.</span><span class="n">multi_processor_count</span> <span class="o">*</span> <span class="mi">64</span><span class="si">}</span><span class="s2">   //对于大多数GPU架构，每个SM通常有64个CUDA核心&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><pre><code>GPU 型号: NVIDIA GeForce RTX 3090
+GPU中的SM(Streaming Multiprocessors)的数量: 82
+Core的数量: 5248   //对于大多数GPU架构，每个SM通常有64个CUDA核心
+</code></pre>
+<p>如果是A100， 它拥有 6,912 个 CUDA 核心 和 432 个 Tensor 核心。<br>
+如果是H100， 它拥有 16,896 个 CUDA 核心 和 528 个 Tensor 核心。</p>
+<p>为什么tensor core数量相对于CUDA core少很多？这其实是GPU设计要考虑的事情，需要在通用计算能力和专用计算加速之间找到平衡。<br>
+CUDA Core更通用、面积小、成本低，而Tensor Core虽然专用，但更复杂、面积大、更贵。</p>
+<p>集群中的cpu的core会有多少呢？</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">psutil</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 获取CPU核心数量</span>
+</span></span><span class="line"><span class="cl"><span class="n">cpu_physical_cores</span> <span class="o">=</span> <span class="n">psutil</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">(</span><span class="n">logical</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># 物理核心数量</span>
+</span></span><span class="line"><span class="cl"><span class="n">cpu_total_cores</span> <span class="o">=</span> <span class="n">psutil</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">(</span><span class="n">logical</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>      <span class="c1"># 总核心数量（包括逻辑核心，例如超线程）</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;CPU 物理核心数量: </span><span class="si">{</span><span class="n">cpu_physical_cores</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;CPU 总核心（逻辑）数量: </span><span class="si">{</span><span class="n">cpu_total_cores</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><pre><code>CPU 物理核心数量: 52
+CPU 总核心（逻辑）数量: 104
+</code></pre>
+<p>二者相比，我们就能感受到gpu的core会多到什么程度。<br>
+同时，我们可以发现，cpu可以通过超线程可以实现逻辑核心，但gpu是没有逻辑核心概念的。</p>
+<p>事实上，GPU 的计算核心通常可以概括为以下几种类型：</p>
+<ul>
+<li>CUDA Core
+<ul>
+<li>这是 NVIDIA GPU 中最基本的计算单元，可以执行一个简单的计算操作</li>
+<li>不如CPU核心通用和强大，但是CUDA的核心优势是数量巨大，并且能够同时并行地对不同数据集进行计算。</li>
+<li>SIMD架构使得成百上千个CUDA核心能够同时处理一个数据集，从而在更短时间内完成数据处理。</li>
+<li>主要用于向量类的计算操作。</li>
+</ul>
+</li>
+<li>Tensor Core
+<ul>
+<li>特殊设计的NVIDIA GPU核心, 专门用于加速深度学习计算，理论上可以加速 8 倍。</li>
+<li>Tensor 核心利用融合乘加算法(fused multiply-addition algorithms)加快计算速度，而且对模型的最终效果几乎没有损失。</li>
+</ul>
+<blockquote>
+<p>融合乘加: 乘法和加法操作合并成一个单一的操作，由硬件在一个步骤中完成，从而减少计算延迟和提高性能。</p>
+</blockquote>
+<ul>
+<li>主要用于 矩阵乘法（GEMM）和卷积操作 。</li>
+</ul>
+</li>
+</ul>
+<p>此外，流处理器（SM）算是GPU的一个计算模块，它通常包含若干 CUDA 核心（例如，64 个 CUDA 核心），以及其他组件如寄存器、共享内存等。GPU 中的 SM 数量决定了 GPU 的并行处理能力。<br>
+至于一个SM具体包含多少CUDA核心，这取决于GPU架构，下面是NVIDIA GPU 架构的演进：</p>
+<p>
+    <figure>
+      <img
+        class="my-0 rounded-md"
+        loading="lazy"
+        srcset="
+        /gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-1/featured_hu17734299649897276997.png 330w,
+        /gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-1/featured_hu7425504235661948316.png 660w,
+        /gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-1/featured_hu12136001527474214309.png 1024w,
+        /gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-1/featured_hu4672507566856464013.png 2x"
+        src="/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-1/featured_hu7425504235661948316.png"
+        alt="image.png"
+      />
+      
+    </figure>
+<br>
+值得留意的是，我们熟知的V100、T100、A100、H100正是Volta、Turning、Ampere、Hopper的代表产品。<br>
+此外，4代架构提供的Tensor Core在计算精度上的支持也是不同的，越往后提供越多的精度。</p>
+
+
+<h2 class="relative group">Kernel到底是什么？ 
+    <div id="kernel%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#kernel%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+<p>kernel在cuda中指的是一个函数，当一个kernel被调用的时候，gpu会同时启动很多个线程来执行这一个kernel，这样就实现了并行化；<br>
+每个线程执行这一kernel将通过线程号来对应输入数据的下标，这样保证每个thread执行的kernel一样，但是处理的数据不一样。</p>
+<p>核函数的几个经典前缀：</p>
+<ul>
+<li><code>__global__</code>:在GPU上执行，可以在CPU上被调用，也可以在GPU上被调用</li>
+<li><code>__device__</code>:在GPU上执行，只能在GPU上被调用</li>
+<li><code>__host__</code>:在CPU上执行，只能在CPU上被调用</li>
+<li><code>__constant__</code>：定义存储在 GPU 常量内存中的变量（所有线程可访问，但只读）。</li>
+<li><code>__shared__</code>：定义存储在 GPU 共享内存中的变量（线程块内共享的内存）。</li>
+<li><code>__managed__</code>：定义可以被 CPU 和 GPU 访问的变量（自动管理内存迁移）。</li>
+<li><code>__align__</code>：设置数据的内存对齐方式（提高内存访问效率）。</li>
+</ul>
+<p>展示一个kernel的代码示例（二维矩阵乘法）：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span><span class="p">{</span> <span class="c1">//定义 Matrix
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">int</span> <span class="n">width</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">height</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">float</span><span class="o">*</span> <span class="n">elements</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">Matrix</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="cp">#define BLOCK_SIZE 16 </span><span class="c1">//宏定义，定义了 CUDA 线程块的大小为 16x16。即每个线程块包含 16 行 16 列的线程。
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span> 
+</span></span><span class="line"><span class="cl"><span class="n">__global__</span> <span class="kt">void</span> <span class="nf">MatMulKernel</span><span class="p">(</span><span class="k">const</span> <span class="n">Matrix</span><span class="p">,</span> <span class="k">const</span> <span class="n">Matrix</span><span class="p">,</span> <span class="n">Matrix</span><span class="p">);</span> <span class="c1">//声明了一个 CUDA 核函数（将在 GPU 上执行），用于矩阵乘法计算。输入是三个 Matrix 类型的参数（两个输入矩阵和一个输出矩阵）。
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">MatMul</span><span class="p">(</span><span class="k">const</span> <span class="n">Matrix</span> <span class="n">A</span><span class="p">,</span> <span class="k">const</span> <span class="n">Matrix</span> <span class="n">B</span><span class="p">,</span> <span class="n">Matrix</span> <span class="n">C</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 为矩阵 A、B 和 C 在 GPU 上分配内存，并将矩阵 A 和 B 的数据从主机（CPU）拷贝到设备（GPU）。C用于存放输出，不需要拷贝
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">Matrix</span> <span class="n">d_A</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">d_A</span><span class="p">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">A</span><span class="p">.</span><span class="n">width</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">d_A</span><span class="p">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">A</span><span class="p">.</span><span class="n">height</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">size_t</span> <span class="n">size</span> <span class="o">=</span> <span class="n">d_A</span><span class="p">.</span><span class="n">width</span> <span class="o">*</span> <span class="n">d_A</span><span class="p">.</span><span class="n">height</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cudaMalloc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">d_A</span><span class="p">.</span><span class="n">elements</span><span class="p">,</span><span class="n">size</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cudaMemcpy</span><span class="p">(</span><span class="n">d_A</span><span class="p">.</span><span class="n">elements</span><span class="p">,</span><span class="n">A</span><span class="p">.</span><span class="n">elements</span><span class="p">,</span><span class="n">size</span><span class="p">,</span><span class="n">cudaMemcpyHostToDevice</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">    <span class="n">Matrix</span> <span class="n">d_B</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">d_B</span><span class="p">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">B</span><span class="p">.</span><span class="n">width</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">d_B</span><span class="p">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">B</span><span class="p">.</span><span class="n">height</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">size_t</span> <span class="n">size</span> <span class="o">=</span> <span class="n">d_B</span><span class="p">.</span><span class="n">width</span> <span class="o">*</span> <span class="n">d_B</span><span class="p">.</span><span class="n">height</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cudaMalloc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">d_B</span><span class="p">.</span><span class="n">elements</span><span class="p">,</span><span class="n">size</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cudaMemcpy</span><span class="p">(</span><span class="n">d_B</span><span class="p">.</span><span class="n">elements</span><span class="p">,</span><span class="n">B</span><span class="p">.</span><span class="n">elements</span><span class="p">,</span><span class="n">size</span><span class="p">,</span><span class="n">cudaMemcpyHostToDevice</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">    <span class="n">Matrix</span> <span class="n">d_C</span><span class="err">；</span>
+</span></span><span class="line"><span class="cl">    <span class="n">d_C</span><span class="p">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">C</span><span class="p">.</span><span class="n">width</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">d_C</span><span class="p">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">C</span><span class="p">.</span><span class="n">height</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">size_t</span> <span class="n">size</span> <span class="o">=</span> <span class="n">d_C</span><span class="p">.</span><span class="n">width</span> <span class="o">*</span> <span class="n">d_C</span><span class="p">.</span><span class="n">height</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cudaMalloc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">d_C</span><span class="p">.</span><span class="n">elements</span><span class="p">,</span><span class="n">size</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// 通过之前声明的block size定义了一个 dimBlock
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">dim3</span> <span class="n">dimBlock</span><span class="p">(</span><span class="n">BLOCK_SIZE</span><span class="p">,</span><span class="n">BLOCK_SIZE</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 定义Grid
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 容易得知，结果C的形状应该是A.height*B.width；
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="c1">// 因为grid的形状是(x,y)类型，即C有x列，y行，所以应该写成 (B.width / dimBlock.x,A.height / dimBlock.y)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">dim3</span> <span class="n">dimGrid</span><span class="p">(</span><span class="n">B</span><span class="p">.</span><span class="n">width</span> <span class="o">/</span> <span class="n">dimBlock</span><span class="p">.</span><span class="n">x</span><span class="p">,</span><span class="n">A</span><span class="p">.</span><span class="n">height</span> <span class="o">/</span> <span class="n">dimBlock</span><span class="p">.</span><span class="n">y</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 调用 CUDA 核函数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">MatMulKernel</span><span class="o">&lt;&lt;&lt;</span><span class="n">dimBlock</span><span class="p">,</span><span class="n">dimGrid</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="n">d_A</span><span class="p">,</span><span class="n">d_B</span><span class="p">,</span><span class="n">d_C</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">    <span class="c1">// 将结果从 GPU 拷贝回主机
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">cudaMemcpy</span><span class="p">(</span><span class="n">C</span><span class="p">.</span><span class="n">elements</span><span class="p">,</span><span class="n">d_C</span><span class="p">.</span><span class="n">elements</span><span class="p">,</span><span class="n">size</span><span class="p">,</span><span class="n">cudaMemcpyDeviceToHost</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 释放 GPU 上分配的内存。
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">cudaFree</span><span class="p">(</span><span class="n">d_A</span><span class="p">.</span><span class="n">elements</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cudaFree</span><span class="p">(</span><span class="n">d_B</span><span class="p">.</span><span class="n">elements</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cudaFree</span><span class="p">(</span><span class="n">d_C</span><span class="p">.</span><span class="n">elements</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="n">__global__</span> <span class="kt">void</span> <span class="nf">MatMulKernel</span><span class="p">(</span><span class="n">Matrix</span> <span class="n">A</span><span class="p">,</span> <span class="n">Matrix</span> <span class="n">B</span><span class="p">,</span> <span class="n">Matrix</span> <span class="n">C</span><span class="p">){</span> <span class="c1">//实现了之前的函数声明
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">float</span> <span class="n">Cvalue</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 这里求对应A矩阵的第row行以及B矩阵的第col列
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">int</span> <span class="n">row</span> <span class="o">=</span> <span class="n">blockIdx</span><span class="p">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">col</span> <span class="o">=</span> <span class="n">blockIdx</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">//这里是根据矩阵相乘的运算法则，也即A的一行乘以B的一列，然后求和得到一个值。
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="c1">//例如，C[1,2]就是A的第一行和B的第二列每个元素相乘再相加，得到的一个值。
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">A</span><span class="p">.</span><span class="n">width</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Cvalue</span> <span class="o">+=</span> <span class="n">A</span><span class="p">.</span><span class="n">elements</span><span class="p">[</span><span class="n">row</span> <span class="o">*</span> <span class="n">A</span><span class="p">.</span><span class="n">width</span> <span class="o">+</span> <span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">B</span><span class="p">.</span><span class="n">elements</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="n">B</span><span class="p">.</span><span class="n">width</span> <span class="o">+</span> <span class="n">col</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">C</span><span class="p">.</span><span class="n">elements</span><span class="p">[</span><span class="n">row</span> <span class="o">*</span> <span class="n">C</span><span class="p">.</span><span class="n">width</span> <span class="o">+</span> <span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">Cvalue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>参考博客：https://blog.csdn.net/zjy1175044232/article/details/120842857</p>
+
+
+<h3 class="relative group">grid？block？wrap？网格、块、束，粒度从大到小的线程调度单位！ 
+    <div id="gridblockwrap%E7%BD%91%E6%A0%BC%E5%9D%97%E6%9D%9F%E7%B2%92%E5%BA%A6%E4%BB%8E%E5%A4%A7%E5%88%B0%E5%B0%8F%E7%9A%84%E7%BA%BF%E7%A8%8B%E8%B0%83%E5%BA%A6%E5%8D%95%E4%BD%8D" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#gridblockwrap%E7%BD%91%E6%A0%BC%E5%9D%97%E6%9D%9F%E7%B2%92%E5%BA%A6%E4%BB%8E%E5%A4%A7%E5%88%B0%E5%B0%8F%E7%9A%84%E7%BA%BF%E7%A8%8B%E8%B0%83%E5%BA%A6%E5%8D%95%E4%BD%8D" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p>通过上面的例子，其实已经能感受到：block 和 grid 是用于组织和管理 GPU 上并行计算的基本单位。可以将它们看作是 GPU 计算资源的组织结构。<br>
+具体来说：从GPU至线程的关系依次为：<code>显卡（GPU）-&gt;网格（grid）-&gt;线程块（block）-&gt; 线程束（wrap）-&gt;线程（thread）</code> 。grid和block最大为3维，当然也可以1维。</p>
+<ul>
+<li>网格(grid)：<strong>每个kernel的启动都会创建一个Grid, 是由多个block组成的集合</strong>，可以说kernel的所有线程都在这个网格范围内，<strong>数量不定</strong>。</li>
+<li>线程块(block)：block内包含多个wrap，所有wrap中的线程都在同一个SM中，同时执行相同的指令（SIMT：单指令多线程），<strong>线程数量不定，wrap数量=block中的总线程数 ÷ 32。</strong> <br>
+block之间可以通过“同步”和“共享内存”进行协作，block之间的区分通过“blockIdx”</li>
+<li>线程束（wrap）：warp是GPU硬件层面执行的基本单元，一个warp通常由 <strong>32个并行线程</strong> 组成。</li>
+<li>线程(thread)：一个线程块可以包含很多个thread，thread之间区分通过threadIdx，当然如果block不一样，threadIdx肯定需要继续区分</li>
+<li>dim3: CUDA提供的专用类型,可以同时用于表示一维、二维和三维的线程块和网格大小(grid和block最大为3维)。
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="c1">//dim3结构有三个输入：x,y,z
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">dim3</span> <span class="n">dd</span><span class="p">;</span><span class="c1">//dd.x,dd.y,dd.z 默认为1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">dim3</span> <span class="nf">dd</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span><span class="c1">//dd.x==2,dd.y==3,dd.z==1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">//一般定义如下
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">dim3</span> <span class="nf">grid</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span><span class="c1">//就是定义一个网格，里面包含2*3*1个block
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">dim3</span> <span class="nf">block</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">);</span><span class="c1">//就是定义一个线程块，里面包含4*5*1个thread
+</span></span></span></code></pre></div></li>
+<li>blockIdx/threadIdx: 是dim3类型变量（整型），是索引线程的关键，对某个线程的索引：blockIdx.x/y/z,threadIdx.x/y/z</li>
+<li>gridDim/blockDim: 也是dim3类型变量，是检查线程维数的关键，对某个线程所属的网格维数、线程块维数进行检测：gridDim.x/y/z,blockDim.x/y/z</li>
+<li>即便对于超大维度的tensor，cuda也可以通过这样的方式去拆分。</li>
+</ul>
+<p>注意：一个grid可以涉及多个SM，但一个block、wrap都只会涉及一个SM。</p>
+<p>参考博客：https://blog.csdn.net/QLeelq/article/details/127284410</p>
+
+
+<h3 class="relative group">kernel跟cpu有没有关系？ 
+    <div id="kernel%E8%B7%9Fcpu%E6%9C%89%E6%B2%A1%E6%9C%89%E5%85%B3%E7%B3%BB" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#kernel%E8%B7%9Fcpu%E6%9C%89%E6%B2%A1%E6%9C%89%E5%85%B3%E7%B3%BB" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p>在CUDA编程中，所有的kernel都必须涉及到CPU，但kernel的具体执行是在GPU上完成的。</p>
+
+
+<h2 class="relative group">cpu和gpu的分工与协作？ 
+    <div id="cpu%E5%92%8Cgpu%E7%9A%84%E5%88%86%E5%B7%A5%E4%B8%8E%E5%8D%8F%E4%BD%9C" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#cpu%E5%92%8Cgpu%E7%9A%84%E5%88%86%E5%B7%A5%E4%B8%8E%E5%8D%8F%E4%BD%9C" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+<p>我们可以简单理解为，GPU主要负责计算和存储部分数据，而CPU主要负责控制：</p>
+<ul>
+<li>启动和管理kernel，当你在代码中调用dkern&laquo;&lt;1, 1&raquo;&gt;();时，实际上是由CPU指令告诉GPU去执行这个内核函数。</li>
+<li>CPU负责将数据从主机内存传输到设备内存，并在GPU完成计算后将结果传回主机内存。</li>
+</ul>
+<p>CPU和GPU之间的协作主要是通过PCIe总线（Peripheral Component Interconnect Express Bus）来实现的，它是一种高速的串行通信接口，可以连接不同的设备和组件。<br>
+CPU和GPU之间的协作过程大致如下：</p>
+<ul>
+<li>CPU首先从内存或硬盘中读取程序和数据，并将其分配给不同的线程（Thread）或进程（Process）进行执行。</li>
+<li>CPU根据程序中的指令，判断哪些计算任务需要交给GPU来处理，例如渲染图形、加速视频、训练神经网络等。</li>
+<li>CPU将这些计算任务打包成一些命令列表（Command List），并通过PCIe总线发送给GPU。</li>
+<li>GPU接收到命令列表后，将其分解成一些更小的工作单元（Work Unit），并分配给不同的流处理器(SM)来并行执行。</li>
+<li>GPU完成计算任务后，将结果通过PCIe总线返回给CPU。</li>
+<li>CPU根据结果继续执行后续的程序，并将最终的输出显示在屏幕上或保存在硬盘上。
+通过这样的协作方式，CPU和GPU可以发挥各自的优势，提高计算机的性能和效率。</li>
+</ul>
+<p>此外，一旦kernel被启动，CPU和GPU是独立运行的，除非显式地调用同步函数（如cudaDeviceSynchronize()），否则CPU不会等待GPU完成任务，CPU和GPU可以并行工作。<br>
+（在某些情况下，CPU需要与GPU进行同步，例如在启动下一个内核或获取结果之前等待GPU完成前一个任务）</p>
+<p><u>CPU和GPU都会牵涉数据的存储和传输，有什么区分吗？</u></p>
+<ul>
+<li>CPU负责的数据：各种结果或者不需要并行计算的数据，主要包括原始输入数据、非并行计算任务的数据、中间结果、任务调度和管理相关的数据等。</li>
+<li>GPU负责的数据：计算要用到的中间数据，主要包括需要大规模并行处理的数据、GPU专用的中间数据、频繁访问的数据、内核计算所需的常量数据等。</li>
+</ul>
+
+          
+          
+          
+        </div>
+        
+        
+
+        
+<details style="margin-left:0px" class="mt-2 mb-5 overflow-hidden rounded-lg ltr:-ml-5 ltr:pl-5 rtl:-mr-5 rtl:pr-5">
+    
+    <summary
+        class="py-1 text-lg font-semibold cursor-pointer bg-primary-200 text-neutral-800 ltr:-ml-5 ltr:pl-5 rtl:-mr-5 rtl:pr-5 dark:bg-primary-800 dark:text-neutral-100">
+        71 - 这篇文章属于一个选集。
+    </summary>
+    
+    
+
+
+</details>
+
+        
+
+          
+      </div>
+     
+      
+      
+        
+        
+          
+          
+        
+      <script>
+        var oid = "views_GPU粗浅理解\\learnGPU-1\\index.md"
+        var oid_likes = "likes_GPU粗浅理解\\learnGPU-1\\index.md"
+      </script>
+      
+      
+      <script type="text/javascript" src="/js/page.min.0860cf4e04fa2d72cc33ddba263083464d48f67de06114529043cb4623319efed4f484fd7f1730df5abea0e2da6f3538855634081d02f2d6e920b956f063e823.js" integrity="sha512-CGDPTgT6LXLMM926JjCDRk1I9n3gYRRSkEPLRiMxnv7U9IT9fxcw31q&#43;oOLabzU4hVY0CB0C8tbpILlW8GPoIw=="></script>
+      
+  
+    </section>
+  <footer class="pt-8 max-w-prose print:hidden">
+
+    
+  
+    
+    
+    
+    <div class="pt-8">
+      <hr class="border-dotted border-neutral-300 dark:border-neutral-600" />
+      <div class="flex justify-between pt-3">
+        <span>
+          
+        </span>
+        <span>
+          
+            <a class="flex text-right group ml-3" href="/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-2/">
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >GPU & CUDA 粗浅理解(二)</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2024-09-03T00:00:00&#43;00:00">2024 September 3</time>
+                  
+                </span>
+              </span>
+              <span
+                class="ml-3 text-neutral-700 group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400"
+                >&rarr;</span
+              >
+              <span
+                class="mr-3 text-neutral-700 group-hover:text-primary-600 ltr:hidden rtl:inline dark:text-neutral dark:group-hover:text-primary-400"
+                >&larr;</span
+              >
+            </a>
+          
+        </span>
+      </div>
+    </div>
+  
+
+
+    
+  </footer>
+</article>
+
+      <div id="top-scroller" class="pointer-events-none absolute top-[110vh] bottom-0 w-12 ltr:right-0 rtl:left-0">
+  <a href="#the-top"
+    class="pointer-events-auto sticky top-[calc(100vh-5.5rem)] flex h-12 w-12 mb-16 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+    aria-label="返回顶部" title="返回顶部">
+    &uarr;
+  </a>
+</div>
+    </main><footer id="site-footer" class="py-10 print:hidden">
+  
+  
+    
+    <nav class="flex flex-row pb-4 text-base font-medium text-neutral-500 dark:text-neutral-400">
+      <ul class="flex flex-col list-none sm:flex-row">
+        
+        <li class="flex mb-1 ltr:text-right rtl:text-left sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0">
+          <a class="decoration-primary-500 hover:underline hover:decoration-2 hover:underline-offset-2 flex items-center" href="/tags/"
+            title="">
+            
+            Tags
+          </a>
+        </li>
+        
+        <li class="flex mb-1 ltr:text-right rtl:text-left sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0">
+          <a class="decoration-primary-500 hover:underline hover:decoration-2 hover:underline-offset-2 flex items-center" href=""
+            title="">
+            
+            
+          </a>
+        </li>
+        
+      </ul>
+    </nav>
+    
+  
+  <div class="flex items-center justify-between">
+
+    
+    
+    <p class="text-sm text-neutral-500 dark:text-neutral-400">
+      &copy;
+      2024
+      空青
+    </p>
+    
+
+    
+    
+    <p class="text-xs text-neutral-500 dark:text-neutral-400">
+      
+      
+      由 <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+        href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+        href="https://blowfish.page/" target="_blank" rel="noopener noreferrer">Blowfish</a> 强力驱动
+    </p>
+    
+
+  </div>
+  <script>
+    
+    mediumZoom(document.querySelectorAll("img:not(.nozoom)"), {
+      margin: 24,
+      background: 'rgba(0,0,0,0.5)',
+      scrollOffset: 0,
+    })
+    
+  </script>
+  
+  
+  <script type="text/javascript" src="/js/process.min.ee03488f19c93c2efb199e2e3014ea5f3cb2ce7d45154adb3399a158cac27ca52831db249ede5bb602700ef87eb02434139de0858af1818ab0fb4182472204a4.js" integrity="sha512-7gNIjxnJPC77GZ4uMBTqXzyyzn1FFUrbM5mhWMrCfKUoMdsknt5btgJwDvh&#43;sCQ0E53ghYrxgYqw&#43;0GCRyIEpA=="></script>
+  
+  
+  
+  
+</footer>
+<div
+  id="search-wrapper"
+  class="invisible fixed inset-0 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm dark:bg-neutral-900/50 sm:p-6 md:p-[10vh] lg:p-[12vh]"
+  data-url="http://localhost:1313/"
+  style="z-index:500"
+>
+  <div
+    id="search-modal"
+    class="flex flex-col w-full max-w-3xl min-h-0 mx-auto border rounded-md shadow-lg top-20 border-neutral-200 bg-neutral dark:border-neutral-700 dark:bg-neutral-800"
+  >
+    <header class="relative z-10 flex items-center justify-between flex-none px-2">
+      <form class="flex items-center flex-auto min-w-0">
+        <div class="flex items-center justify-center w-8 h-8 text-neutral-400">
+          
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+        </div>
+        <input
+          type="search"
+          id="search-query"
+          class="flex flex-auto h-12 mx-1 bg-transparent appearance-none focus:outline-dotted focus:outline-2 focus:outline-transparent"
+          placeholder="搜索"
+          tabindex="0"
+        />
+      </form>
+      <button
+        id="close-search-button"
+        class="flex items-center justify-center w-8 h-8 text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        title="关闭 (Esc)"
+      >
+        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+
+  </span>
+
+
+      </button>
+    </header>
+    <section class="flex-auto px-2 overflow-auto">
+      <ul id="search-results">
+        
+      </ul>
+    </section>
+  </div>
+</div>
+
+  </div>
+</body>
+
+</html>
