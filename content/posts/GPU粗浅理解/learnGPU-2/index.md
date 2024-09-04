@@ -1,7 +1,7 @@
 ---
-title: "GPU & CUDA 粗浅理解(二)"
+title: "GPU & CUDA 粗浅理解(二)（草稿）"
 date: 2024-09-03
-draft: false
+draft: true
 tags: ["GPU", "CUDA"]
 category: "博客"
 series: ["GPU&CUDA粗浅理解"]
@@ -76,31 +76,8 @@ nvcc -o testUtil testUtil.cu
 
 在指标的选择上，可以使用SM occupation（注意不是SM utilization，这个其实就是nvidia-smi dmon看到的利用率），一个SM包含了多个core，而且SM是CUDA最基本的计算模块，所以这个指标可以代表空间利用率。
 
-### DCGM
-
-DCGM是针对与数据中心去观测的，甚至支持DCGM Exporter工具，可以衔接上Kubernetes使用。
-
-根据[官方github](https://github.com/NVIDIA/DCGM)的方案去安装dcgm
-
-通过下述命令查看性能分析：
-```sh
-sudo systemctl start nvidia-dcgm
-# 通过 -l 了解有哪些参数可以查看，其中10002、10003分别对应
-dcgmi dmon -l
-# 查看列表发现1002、1003对应于SM occupation，是我们要的指标
-dcgmi dmon -e 1002
-
-# 也可以针对指定程序监控
-# 启动监控
-dcgmi stats --host 127.0.0.1 -g 0 -e
-# 暴露某个程序的信息
-dcgmi stats --host 127.0.0.1 -g 0 -p <pid> -v
-```
-踩坑1：dcgm的性能分析模块(例如1002、1003)仅支持 Tesla/Quadro 级 GPU，不支持 RTX/GTX GPU，也不支持任何容器。
-
 
 ### Nsight System
-
 
 ### Nsight profile
 
@@ -108,7 +85,7 @@ dcgmi stats --host 127.0.0.1 -g 0 -p <pid> -v
 
 首先说nvidia profile，其实展示效果相当于tensorboard profile，但更加全面、快速。
 
-踩坑2：nvprof不支持8.0以上的算力 \
+踩坑1：nvprof不支持8.0以上的算力 \
 ![image.png](image.png)
 
 Nsight profile是nvprofile的升级版，对应的指令是`nsys profile`。会返回很多指标，并且支持通过graphics工具进行可视化。例如：
@@ -212,3 +189,33 @@ if __name__ == '__main__':
 此外，获取warp active的命令：
 `ncu --metrics sm__warps_active.avg.pct_of_peak_sustained_active ./testUtil 100`，效果为：\
 ![alt text](image-3.png)
+
+
+### DCGM
+
+
+nsys 和 ncu 这类 NVIDIA 工具通常是用于分析正在执行的程序的,通常需要附加到正在执行的进程或者通过命令行启动分析任务。这种结果通常是程序结束后的。
+
+而DCGM是针对与数据中心去观测的，甚至支持DCGM Exporter工具，可以衔接上Kubernetes使用。与nvidia-smi一样，结果可以是同时的。
+
+根据[官方github](https://github.com/NVIDIA/DCGM)的方案去安装dcgm
+
+通过下述命令查看性能分析：
+```sh
+sudo systemctl start nvidia-dcgm
+# 通过 -l 了解有哪些参数可以查看，其中10002、10003分别对应
+dcgmi dmon -l
+# 查看列表发现1002、1003对应于SM occupation，是我们要的指标
+dcgmi dmon -e 1002
+
+# 也可以针对指定程序监控
+# 启动监控
+dcgmi stats --host 127.0.0.1 -g 0 -e
+# 暴露某个程序的信息
+dcgmi stats --host 127.0.0.1 -g 0 -p <pid> -v
+```
+踩坑2：dcgm的性能分析模块(例如1002、1003)仅支持 Tesla/Quadro 级 GPU，不支持 RTX/GTX GPU，也不支持任何容器。
+
+### NVML
+
+仅部分显卡支持nvml（NVIDIA Management Library ），这个库也提供相应的功能，而且有python库（pynvml）。
