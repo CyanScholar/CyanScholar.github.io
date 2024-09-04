@@ -218,4 +218,4 @@ dcgmi stats --host 127.0.0.1 -g 0 -p <pid> -v
 
 ### NVML
 
-仅部分显卡支持nvml（NVIDIA Management Library ），这个库也提供相应的功能，而且有python库（pynvml）。
+nvml（NVIDIA Management Library ）这个库也提供相应的功能，而且有python库（pynvml）。NVML已经有比较广泛的应用，比如NVIDIA-smi就是基于NVML库做的.
