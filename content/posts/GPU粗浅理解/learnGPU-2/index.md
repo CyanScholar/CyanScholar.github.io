@@ -191,8 +191,7 @@ if __name__ == '__main__':
 ```
 代码里的nsys_recipe我也查了半天nvidia的github，看到`/usr/local/cuda-12.4/NsightSystems-cli-2024.2.1/target-linux-x64/python/packages/nsys_recipe/requirements/common.txt`时才发现端倪，原来是需要安装CLI才能够使用，这个库是cli中提供的python接口。
 
-值得一提的是，nsight现在支持python了，可以在[pypi.org](https://pypi.org/search/?q=nsys&o=-created)中查到：
-+ [jupyterlab-nvidia-nsight](https://pypi.org/project/jupyterlab-nvidia-nsight/)
+值得一提的是，nsight现在支持jupyter了，可以在[pypi.org](https://pypi.org/search/?q=nsys&o=-created)中查到： [jupyterlab-nvidia-nsight](https://pypi.org/project/jupyterlab-nvidia-nsight/)
 
 ### Nsight Computer
 通过Nsight Compute工具也可以观测到
