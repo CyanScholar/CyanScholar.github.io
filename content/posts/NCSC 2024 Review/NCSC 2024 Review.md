@@ -6,8 +6,6 @@ tags: ["等VSync发布后更新"]
 category: "review"
 summary: "简单复盘一下NCSC 2024。"
 ---
-
-
 # NCSC比赛复盘
 
 有幸入围了这一次的CCF服务计算创新大赛的决赛，成功混到了宁波三日公费游！
