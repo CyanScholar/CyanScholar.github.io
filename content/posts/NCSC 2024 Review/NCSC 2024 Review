@@ -1,11 +1,12 @@
 ---
-title: "{{ NCSC 2024 Review }}"
-date: {{ .Date }}
-draft: true
+title: "NCSC 2024 Review"
+date: 2024-09-03
+draft: false
 tags: ["等VSync发布后更新"]
 category: "review"
-
+summary: "简单复盘一下NCSC 2024。"
 ---
+
 
 # NCSC比赛复盘
 
