@@ -1,7 +1,7 @@
 disabled = false
 languageCode = "en"
 languageName = "English"
-weight = 1
+weight = 2
 title = "CyanScholar"
 
 [params]
@@ -12,7 +12,7 @@ dateFormat = "2006 January 2"
 logo = "star.svg"
 
 [params.author]
-name = "Cyan Wu"
+name = "Cyan Sky"
 image = "cyan.jpg"
 headline = "CyanScholar"
 # links = "https://github.com/CyanStarNight"

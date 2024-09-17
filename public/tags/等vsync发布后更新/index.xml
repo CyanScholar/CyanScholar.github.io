@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>等VSync发布后更新 on CyanScholar</title>
+    <link>http://localhost:1313/tags/%E7%AD%89vsync%E5%8F%91%E5%B8%83%E5%90%8E%E6%9B%B4%E6%96%B0/</link>
+    <description>Recent content in 等VSync发布后更新 on CyanScholar</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <copyright>© 2024 空青</copyright>
+    <lastBuildDate>Tue, 03 Sep 2024 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/%E7%AD%89vsync%E5%8F%91%E5%B8%83%E5%90%8E%E6%9B%B4%E6%96%B0/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>NCSC 2024 Review</title>
+      <link>http://localhost:1313/posts/ncsc-2024-review/</link>
+      <pubDate>Tue, 03 Sep 2024 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/posts/ncsc-2024-review/</guid>
+      <description>简单复盘一下NCSC 2024。</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:1313/posts/ncsc-2024-review/featured.jpg" />
+    </item>
+    
+  </channel>
+</rss>

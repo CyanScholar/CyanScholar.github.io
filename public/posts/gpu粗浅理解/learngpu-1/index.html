@@ -863,9 +863,10 @@
     class="min-w-[220px] py-2 border-dotted ltr:-ml-5 ltr:border-l ltr:pl-5 rtl:-mr-5 rtl:border-r rtl:pr-5 dark:border-neutral-600">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#core是什么">core是什么？</a></li>
-    <li><a href="#kernel到底是什么">Kernel到底是什么？</a>
+    <li><a href="#基础概念">基础概念</a>
       <ul>
+        <li><a href="#core是什么">core是什么？</a></li>
+        <li><a href="#kernel到底是什么">Kernel到底是什么？</a></li>
         <li><a href="#gridblockwrap网格块束粒度从大到小的线程调度单位">grid？block？wrap？网格、块、束，粒度从大到小的线程调度单位！</a></li>
         <li><a href="#kernel跟cpu有没有关系">kernel跟cpu有没有关系？</a></li>
       </ul>
@@ -884,9 +885,10 @@
     class="py-2 border-dotted border-neutral-300 ltr:-ml-5 ltr:border-l ltr:pl-5 rtl:-mr-5 rtl:border-r rtl:pr-5 dark:border-neutral-600">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#core是什么">core是什么？</a></li>
-    <li><a href="#kernel到底是什么">Kernel到底是什么？</a>
+    <li><a href="#基础概念">基础概念</a>
       <ul>
+        <li><a href="#core是什么">core是什么？</a></li>
+        <li><a href="#kernel到底是什么">Kernel到底是什么？</a></li>
         <li><a href="#gridblockwrap网格块束粒度从大到小的线程调度单位">grid？block？wrap？网格、块、束，粒度从大到小的线程调度单位！</a></li>
         <li><a href="#kernel跟cpu有没有关系">kernel跟cpu有没有关系？</a></li>
       </ul>
@@ -951,7 +953,7 @@
     <div
         class="py-1 border-dotted border-neutral-300 ltr:-ml-5 ltr:border-l ltr:pl-5 rtl:-mr-5 rtl:border-r rtl:pr-5 dark:border-neutral-600">
         <a href="http://localhost:1313/posts/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-2/">
-            § 2: GPU &amp; CUDA 粗浅理解(二)
+            § 2: GPU &amp; CUDA 粗浅理解(二)（草稿）
         </a>
     </div>
     
@@ -965,7 +967,7 @@
         <div class="article-content max-w-prose mb-20">
           
 
-<h1 class="relative group">基础概念 
+<h2 class="relative group">基础概念 
     <div id="%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5" class="anchor"></div>
     
     <span
@@ -974,7 +976,7 @@
             style="text-decoration-line: none !important;" href="#%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5" aria-label="锚点">#</a>
     </span>        
     
-</h1>
+</h2>
 <ul>
 <li>GPU (Graphical Processing Unit)：硬件</li>
 <li>CUDA core：处理单元，硬件</li>
@@ -987,7 +989,7 @@
 </ul>
 
 
-<h2 class="relative group">core是什么？ 
+<h3 class="relative group">core是什么？ 
     <div id="core%E6%98%AF%E4%BB%80%E4%B9%88" class="anchor"></div>
     
     <span
@@ -996,7 +998,7 @@
             style="text-decoration-line: none !important;" href="#core%E6%98%AF%E4%BB%80%E4%B9%88" aria-label="锚点">#</a>
     </span>        
     
-</h2>
+</h3>
 <p>以3090为例，cpu有多少个core？gpu有多少个core？</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">torch</span>
 </span></span><span class="line"><span class="cl"><span class="n">gpu_info</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">get_device_properties</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -1069,7 +1071,7 @@ CPU 总核心（逻辑）数量: 104
 此外，4代架构提供的Tensor Core在计算精度上的支持也是不同的，越往后提供越多的精度。</p>
 
 
-<h2 class="relative group">Kernel到底是什么？ 
+<h3 class="relative group">Kernel到底是什么？ 
     <div id="kernel%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88" class="anchor"></div>
     
     <span
@@ -1078,7 +1080,7 @@ CPU 总核心（逻辑）数量: 104
             style="text-decoration-line: none !important;" href="#kernel%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88" aria-label="锚点">#</a>
     </span>        
     
-</h2>
+</h3>
 <p>kernel在cuda中指的是一个函数，当一个kernel被调用的时候，gpu会同时启动很多个线程来执行这一个kernel，这样就实现了并行化；<br>
 每个线程执行这一kernel将通过线程号来对应输入数据的下标，这样保证每个thread执行的kernel一样，但是处理的数据不一样。</p>
 <p>核函数的几个经典前缀：</p>
@@ -1309,7 +1311,7 @@ CPU和GPU之间的协作过程大致如下：</p>
     <div
         class="py-1 border-dotted border-neutral-300 ltr:-ml-5 ltr:border-l ltr:pl-5 rtl:-mr-5 rtl:border-r rtl:pr-5 dark:border-neutral-600">
         <a href="http://localhost:1313/posts/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-2/">
-            § 2: GPU &amp; CUDA 粗浅理解(二)
+            § 2: GPU &amp; CUDA 粗浅理解(二)（草稿）
         </a>
     </div>
     
@@ -1335,12 +1337,20 @@ CPU和GPU之间的协作过程大致如下：</p>
         <div class="w-full thumbnail_card_related nozoom" style="background-image:url(/posts/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-2/featured_cuda_hu10429177688190394794.jpg);"></div>
         
       
+      <span class="absolute top-0 right-0 m-2">
+        <span class="flex" style="cursor: pointer;">
+  <span class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
+    草稿
+  </span>
+</span>
+      </span>
+      
 
       <div class="px-6 py-4">
 
         
         <div class="font-bold text-xl text-neutral-800 decoration-primary-500 hover:underline hover:underline-offset-2 dark:text-neutral"
-          href="/posts/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-2/">GPU & CUDA 粗浅理解(二)</div>
+          href="/posts/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-2/">GPU & CUDA 粗浅理解(二)（草稿）</div>
         
 
         <div class="text-sm text-neutral-500 dark:text-neutral-400">
@@ -1387,7 +1397,7 @@ CPU和GPU之间的协作过程大致如下：</p>
 <div class="flex flex-row flex-wrap items-center">
   
   
-  <time datetime="2024-09-03T00:00:00&#43;00:00">2024 September 3</time><span class="px-2 text-primary-500">&middot;</span><span>236 字</span><span class="px-2 text-primary-500">&middot;</span><span title="预计阅读">2 分钟</span><span class="px-2 text-primary-500">&middot;</span><span>
+  <time datetime="2024-09-03T00:00:00&#43;00:00">2024 September 3</time><span class="px-2 text-primary-500">&middot;</span><span>548 字</span><span class="px-2 text-primary-500">&middot;</span><span title="预计阅读">3 分钟</span><span class="px-2 text-primary-500">&middot;</span><span>
   
   
     
@@ -1469,6 +1479,164 @@ CPU和GPU之间的协作过程大致如下：</p>
     <span class="flex" style="cursor: pointer;">
   <span class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
     CUDA
+  </span>
+</span>
+  </span>
+  
+  
+  
+  
+</div>
+
+
+
+
+        </div>
+
+        
+      </div>
+      <div class="px-6 pt-4 pb-2">
+
+      </div>
+    </div>
+  </a>
+
+  
+  
+
+  <a href="/posts/ncsc-2024-review/" class="min-w-full">
+    
+    <div class="min-h-full border border-neutral-200 dark:border-neutral-700 border-2 rounded overflow-hidden shadow-2xl relative">
+        
+        <div class="w-full thumbnail_card_related nozoom" style="background-image:url(/posts/ncsc-2024-review/featured_hu11498168597764620021.jpg);"></div>
+        
+      
+
+      <div class="px-6 py-4">
+
+        
+        <div class="font-bold text-xl text-neutral-800 decoration-primary-500 hover:underline hover:underline-offset-2 dark:text-neutral"
+          href="/posts/ncsc-2024-review/">NCSC 2024 Review</div>
+        
+
+        <div class="text-sm text-neutral-500 dark:text-neutral-400">
+          
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+<div class="flex flex-row flex-wrap items-center">
+  
+  
+  <time datetime="2024-09-03T00:00:00&#43;00:00">2024 September 3</time><span class="px-2 text-primary-500">&middot;</span><span>39 字</span><span class="px-2 text-primary-500">&middot;</span><span title="预计阅读">1 分钟</span><span class="px-2 text-primary-500">&middot;</span><span>
+  
+  
+    
+    
+      
+      
+        
+        
+      
+      
+    
+  
+  <span id="views_posts\NCSC 2024 Review\index.md" class="animate-pulse inline-block text-transparent max-h-3 rounded-full mt-[-2px] align-middle bg-neutral-300 dark:bg-neutral-400" title="views">loading</span>
+  <span class="inline-block align-text-bottom">
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+<path fill="currentColor" d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg>
+  </span>
+
+</span>
+</span><span class="px-2 text-primary-500">&middot;</span><span>
+  
+  
+    
+    
+      
+      
+        
+        
+      
+      
+    
+  
+  <span id="likes_posts\NCSC 2024 Review\index.md"
+    class="animate-pulse inline-block text-transparent max-h-3 rounded-full mt-[-2px] align-middle bg-neutral-300 dark:bg-neutral-400"
+    title="likes">loading</span>
+  <span class="inline-block align-text-bottom">
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<path fill="currentColor" d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"/></svg>
+  </span>
+
+</span>
+</span>
+  
+
+  
+  
+</div>
+
+
+
+
+
+<div class="flex flex-row flex-wrap items-center">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <span style="margin-top:0.5rem" class="mr-2" onclick="window.open(&#34;/tags/%E7%AD%89vsync%E5%8F%91%E5%B8%83%E5%90%8E%E6%9B%B4%E6%96%B0/&#34;,'_self');">
+    <span class="flex" style="cursor: pointer;">
+  <span class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
+    等VSync发布后更新
   </span>
 </span>
   </span>
@@ -1692,7 +1860,7 @@ CPU和GPU之间的协作过程大致如下：</p>
       <div class="flex justify-between pt-3">
         <span>
           
-            <a class="flex group mr-3" href="/posts/1725327172611-%E5%86%99%E5%8D%9A%E5%AE%A2%E7%9A%84%E6%84%8F%E4%B9%89/">
+            <a class="flex group mr-3" href="/posts/ncsc-2024-review/">
               <span
                 class="mr-3 text-neutral-700 group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400"
                 >&larr;</span
@@ -1704,7 +1872,7 @@ CPU和GPU之间的协作过程大致如下：</p>
               <span class="flex flex-col">
                 <span
                   class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
-                  >写博客的意义</span
+                  >NCSC 2024 Review</span
                 >
                 <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
                   
@@ -1721,7 +1889,7 @@ CPU和GPU之间的协作过程大致如下：</p>
               <span class="flex flex-col">
                 <span
                   class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
-                  >GPU & CUDA 粗浅理解(二)</span
+                  >GPU & CUDA 粗浅理解(二)（草稿）</span
                 >
                 <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
                   

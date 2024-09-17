@@ -8,8 +8,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   
-  <title>GPU & CUDA 粗浅理解(二) &middot; CyanScholar</title>
-  <meta name="title" content="GPU & CUDA 粗浅理解(二) &middot; CyanScholar" />
+  <title>GPU & CUDA 粗浅理解(二)（草稿） &middot; CyanScholar</title>
+  <meta name="title" content="GPU & CUDA 粗浅理解(二)（草稿） &middot; CyanScholar" />
   
   
   <meta name="keywords" content="GPU, CUDA, " />
@@ -68,7 +68,7 @@
   
   <meta property="og:url" content="http://localhost:1313/posts/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-2/">
   <meta property="og:site_name" content="CyanScholar">
-  <meta property="og:title" content="GPU & CUDA 粗浅理解(二)">
+  <meta property="og:title" content="GPU & CUDA 粗浅理解(二)（草稿）">
   <meta property="og:description" content="利用率？ #关于gpu利用率，很多人都存在一些误区。">
   <meta property="og:locale" content="zh_cn">
   <meta property="og:type" content="article">
@@ -83,7 +83,7 @@
   
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="http://localhost:1313/posts/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-2/featured_cuda.jpg">
-  <meta name="twitter:title" content="GPU & CUDA 粗浅理解(二)">
+  <meta name="twitter:title" content="GPU & CUDA 粗浅理解(二)（草稿）">
   <meta name="twitter:description" content="利用率？ #关于gpu利用率，很多人都存在一些误区。">
 
   
@@ -92,8 +92,8 @@
     "@context": "https://schema.org",
     "@type": "Article",
     "articleSection": "Posts",
-    "name": "GPU \u0026 CUDA 粗浅理解(二)",
-    "headline": "GPU \u0026 CUDA 粗浅理解(二)",
+    "name": "GPU \u0026 CUDA 粗浅理解(二)（草稿）",
+    "headline": "GPU \u0026 CUDA 粗浅理解(二)（草稿）",
     
     "abstract": "利用率？ #\r关于gpu利用率，很多人都存在一些误区。",
     "inLanguage": "zh-cn",
@@ -111,7 +111,7 @@
     "keywords": ["GPU","CUDA"],
     
     "mainEntityOfPage": "true",
-    "wordCount": "236"
+    "wordCount": "548"
   }]
   </script>
 
@@ -643,7 +643,7 @@
   <header id="single_header" class="mt-5 max-w-prose">
     
     <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
-      GPU & CUDA 粗浅理解(二)
+      GPU & CUDA 粗浅理解(二)（草稿）
     </h1>
     <div class="mt-1 mb-6 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
       
@@ -696,7 +696,7 @@
 <div class="flex flex-row flex-wrap items-center">
   
   
-  <time datetime="2024-09-03T00:00:00&#43;00:00">2024 September 3</time><span class="px-2 text-primary-500">&middot;</span><span>236 字</span><span class="px-2 text-primary-500">&middot;</span><span title="预计阅读">2 分钟</span><span class="px-2 text-primary-500">&middot;</span><span>
+  <time datetime="2024-09-03T00:00:00&#43;00:00">2024 September 3</time><span class="px-2 text-primary-500">&middot;</span><span>548 字</span><span class="px-2 text-primary-500">&middot;</span><span title="预计阅读">3 分钟</span><span class="px-2 text-primary-500">&middot;</span><span>
   
   
     
@@ -790,6 +790,12 @@
 
   
   
+  <span class="pl-2"><span class="flex" style="cursor: pointer;">
+  <span class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
+    草稿
+  </span>
+</span></span>
+  
 </div>
 
 
@@ -868,8 +874,10 @@
         <li><a href="#根据nvidia-smi或者nvidia-smi-pmon查看的利用率是什么">根据nvidia-smi或者nvidia-smi pmon查看的利用率是什么？</a></li>
         <li><a href="#那如何获取空间利用率呢">那如何获取空间利用率呢？</a></li>
         <li><a href="#nsight-system">Nsight System</a></li>
-        <li><a href="#nsight-compute">Nsight Compute</a></li>
+        <li><a href="#nsight-profile">Nsight profile</a></li>
+        <li><a href="#nsight-computer">Nsight Computer</a></li>
         <li><a href="#dcgm">DCGM</a></li>
+        <li><a href="#nvml">NVML</a></li>
       </ul>
     </li>
   </ul>
@@ -890,8 +898,10 @@
         <li><a href="#根据nvidia-smi或者nvidia-smi-pmon查看的利用率是什么">根据nvidia-smi或者nvidia-smi pmon查看的利用率是什么？</a></li>
         <li><a href="#那如何获取空间利用率呢">那如何获取空间利用率呢？</a></li>
         <li><a href="#nsight-system">Nsight System</a></li>
-        <li><a href="#nsight-compute">Nsight Compute</a></li>
+        <li><a href="#nsight-profile">Nsight profile</a></li>
+        <li><a href="#nsight-computer">Nsight Computer</a></li>
         <li><a href="#dcgm">DCGM</a></li>
+        <li><a href="#nvml">NVML</a></li>
       </ul>
     </li>
   </ul>
@@ -1064,7 +1074,7 @@
     </span>        
     
 </h3>
-<p>目前国内几乎没怎么去研究这个问题，通过调研NVIDIA forum了解到几个工具或许能够用上：pytorch profile、nsight 和nvidia dcgm。考虑到硬件的支持，pytorch profile我不太看好，尤其是对于LLM这种有大量操作的应用来说，这种方案的加载速度很慢。后面的两个方案都可以用。</p>
+<p>目前国内几乎没怎么去研究这个问题，通过调研<a href="https://forums.developer.nvidia.com/search?q=sm%20occupation" target="_blank">NVIDIA forum</a>了解到几个工具或许能够用上：pytorch profile、nsight 和nvidia dcgm。考虑到硬件的支持，pytorch profile我不太看好，尤其是对于LLM这种有大量操作的应用来说，这种方案的加载速度很慢。后面的两个方案都可以用。</p>
 <p>在指标的选择上，可以使用SM occupation（注意不是SM utilization，这个其实就是nvidia-smi dmon看到的利用率），一个SM包含了多个core，而且SM是CUDA最基本的计算模块，所以这个指标可以代表空间利用率。</p>
 
 
@@ -1078,9 +1088,21 @@
     </span>        
     
 </h3>
+
+
+<h3 class="relative group">Nsight profile 
+    <div id="nsight-profile" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#nsight-profile" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
 <p>注意概念上的一个定义：<u>profile是对程序而言的，不是对GPU集群。</u></p>
-<p>首先说nvidia profile，其实展示效果相当于tensorboard profile，但更加全面、快速。
-踩坑1：nvprof不支持8.0以上的算力 <br>
+<p>首先说nvidia profile，其实展示效果相当于tensorboard profile，但更加全面、快速。</p>
+<p>踩坑1：nvprof不支持8.0以上的算力 <br>
 
     <figure>
       <img
@@ -1097,20 +1119,147 @@
       
     </figure>
 </p>
-<p>Nsight System是nvprofile的升级版，对应的指令是<code>nsys</code>。</p>
+<p>Nsight profile是nvprofile的升级版，对应的指令是<code>nsys profile</code>。会返回很多指标，并且支持通过graphics工具进行可视化。例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">nsys profile --trace<span class="o">=</span>cuda --stats<span class="o">=</span><span class="nb">true</span> ./your_application
+</span></span></code></pre></div><p>效果为：
+
+    <figure>
+      <img
+        class="my-0 rounded-md"
+        loading="lazy"
+        srcset="
+        /posts/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-2/image-1_hu2820138339653636535.png 330w,
+        /posts/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-2/image-1_hu12721131088350168394.png 660w,
+        /posts/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-2/image-1_hu857589185444064594.png 1024w,
+        /posts/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-2/image-1_hu230322067093767844.png 2x"
+        src="/posts/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-2/image-1_hu12721131088350168394.png"
+        alt="alt text"
+      />
+      
+    </figure>
+</p>
+<p>这里观测的<code>testUtil</code>仍然是上面的代码，<code>stats</code>是展示输出信息的摘要（不是完整的）。<br>
+同时，profile会生成一个nsys-rep，前者可以通过<code>nsys</code>再次读取，也可以通过<code>export</code>功能导出为csv或者sqlite文件</p>
+<p>下面的实现参考于博客: <a href="https://developer.nvidia.com/zh-cn/blog/measuring-the-gpu-occupancy-of-multi-stream-workloads/" target="_blank">https://developer.nvidia.com/zh-cn/blog/measuring-the-gpu-occupancy-of-multi-stream-workloads/</a></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">nsys profile --gpu-metrics-device<span class="o">=</span>N 
+</span></span></code></pre></div><p>获取到sqlite文件后，执行下述代码进行分析即可：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">sys</span> 
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">json</span> 
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span> 
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">nsys_recipe</span> <span class="kn">import</span> <span class="n">data_service</span><span class="p">,</span> <span class="n">log</span> 
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">nsys_recipe.data_service</span> <span class="kn">import</span> <span class="n">DataService</span> 
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c1"># To run this script, be sure to add the Nsight Systems package directory to your PYTHONPATH, similar to this: </span>
+</span></span><span class="line"><span class="cl"><span class="c1"># export PYTHONPATH=/opt/nvidia/nsight-systems/2023.4.1/target-linux-x64/python/packages </span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">compute_utilization</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="mi">10000</span><span class="p">):</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">service</span><span class="o">=</span><span class="n">DataService</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">table_column_dict</span> <span class="o">=</span> <span class="p">{</span> 
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;GPU_METRICS&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;typeId&#34;</span><span class="p">,</span> <span class="s2">&#34;metricId&#34;</span><span class="p">,</span> <span class="s2">&#34;value&#34;</span><span class="p">],</span> 
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;TARGET_INFO_GPU_METRICS&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;metricName&#34;</span><span class="p">,</span> <span class="s2">&#34;metricId&#34;</span><span class="p">],</span> 
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;META_DATA_CAPTURE&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;name&#34;</span><span class="p">,</span> <span class="s2">&#34;value&#34;</span><span class="p">]</span> 
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">hints</span><span class="o">=</span><span class="p">{</span><span class="s2">&#34;format&#34;</span><span class="p">:</span><span class="s2">&#34;sqlite&#34;</span><span class="p">}</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">df_dict</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="n">read_tables</span><span class="p">(</span><span class="n">table_column_dict</span><span class="p">,</span> <span class="n">hints</span><span class="o">=</span><span class="n">hints</span><span class="p">)</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">df</span> <span class="o">=</span> <span class="n">df_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&#34;GPU_METRICS&#34;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> 
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">df</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> 
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2"> does not contain GPU metric data.&#34;</span><span class="p">)</span> 
+</span></span><span class="line"><span class="cl">        <span class="k">return</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tgtinfo_df</span> <span class="o">=</span> <span class="n">df_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&#34;TARGET_INFO_GPU_METRICS&#34;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> 
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">tgtinfo_df</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> 
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2"> does not contain TARGET_INFO_GPU_METRICS table.&#34;</span><span class="p">)</span> 
+</span></span><span class="line"><span class="cl">        <span class="k">return</span>
+</span></span><span class="line"><span class="cl">    <span class="n">metadata_df</span> <span class="o">=</span> <span class="n">df_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&#34;META_DATA_CAPTURE&#34;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> 
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">metadata_df</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span> 
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="s2">&#34;GPU_METRICS_OPTIONS:SAMPLING_FREQUENCY&#34;</span> <span class="ow">in</span> <span class="n">metadata_df</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">:</span> 
+</span></span><span class="line"><span class="cl">            <span class="n">report_freq</span> <span class="o">=</span> <span class="n">metadata_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span> <span class="n">metadata_df</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;GPU_METRICS_OPTIONS:SAMPLING_FREQUENCY&#39;</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iat</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> 
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">report_freq</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span><span class="nb">float</span><span class="p">)):</span> 
+</span></span><span class="line"><span class="cl">                <span class="n">freq</span> <span class="o">=</span> <span class="n">report_freq</span> 
+</span></span><span class="line"><span class="cl">                <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Setting GPU Metric sample frequency to value in report file. new frequency=&#34;</span><span class="p">,</span><span class="n">freq</span><span class="p">)</span>                 
+</span></span><span class="line"><span class="cl">      
+</span></span><span class="line"><span class="cl">    <span class="n">possible_smactive</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;SMs Active&#39;</span><span class="p">,</span> <span class="s1">&#39;SM Active&#39;</span><span class="p">,</span> <span class="s1">&#39;SM Active [Throughput %]&#39;</span><span class="p">]</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">smactive_name_mask</span> <span class="o">=</span> <span class="n">tgtinfo_df</span><span class="p">[</span><span class="s1">&#39;metricName&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">possible_smactive</span><span class="p">)</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">smactive_row</span> <span class="o">=</span> <span class="n">tgtinfo_df</span><span class="p">[</span><span class="n">smactive_name_mask</span><span class="p">]</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">smactive_name</span> <span class="o">=</span> <span class="n">smactive_row</span><span class="p">[</span><span class="s1">&#39;metricName&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iat</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">smactive_id</span> <span class="o">=</span> <span class="n">tgtinfo_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">tgtinfo_df</span><span class="p">[</span><span class="s1">&#39;metricName&#39;</span><span class="p">]</span><span class="o">==</span><span class="n">smactive_name</span><span class="p">,</span><span class="s1">&#39;metricId&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iat</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">smactive_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;metricId&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">smactive_id</span> <span class="p">]</span> 
+</span></span><span class="line"><span class="cl">      
+</span></span><span class="line"><span class="cl">    <span class="n">usage</span> <span class="o">=</span> <span class="n">smactive_df</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">smactive_df</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">])</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">count_nonzero</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">smactive_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">smactive_df</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">!=</span><span class="mi">0</span><span class="p">])</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">avg_gross_util</span> <span class="o">=</span> <span class="n">usage</span><span class="o">/</span><span class="n">count</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">avg_net_util</span> <span class="o">=</span> <span class="n">usage</span><span class="o">/</span><span class="n">count_nonzero</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">effective_util</span> <span class="o">=</span> <span class="n">usage</span><span class="o">/</span><span class="n">freq</span><span class="o">/</span><span class="mi">100</span>
+</span></span><span class="line"><span class="cl">      
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Avg gross GPU utilization:</span><span class="se">\t</span><span class="s2">%lf %%&#34;</span> <span class="o">%</span> <span class="n">avg_gross_util</span><span class="p">)</span> 
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Avg net GPU utilization:</span><span class="se">\t</span><span class="s2">%lf %%&#34;</span> <span class="o">%</span> <span class="n">avg_net_util</span><span class="p">)</span> 
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Effective GPU utilization time:</span><span class="se">\t</span><span class="s2">%lf s&#34;</span> <span class="o">%</span> <span class="n">effective_util</span><span class="p">)</span> 
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">metadata_df</span> 
+</span></span><span class="line"><span class="cl">      
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span> 
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span><span class="o">==</span><span class="mi">2</span><span class="p">:</span> 
+</span></span><span class="line"><span class="cl">        <span class="n">compute_utilization</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> 
+</span></span><span class="line"><span class="cl">    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span><span class="o">==</span><span class="mi">3</span><span class="p">:</span> 
+</span></span><span class="line"><span class="cl">        <span class="n">compute_utilization</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">freq</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span> 
+</span></span></code></pre></div><p>代码里的nsys_recipe我也查了半天nvidia的github，看到<code>/usr/local/cuda-12.4/NsightSystems-cli-2024.2.1/target-linux-x64/python/packages/nsys_recipe/requirements/common.txt</code>时才发现端倪，原来是需要安装CLI才能够使用，这个库是cli中提供的python接口。</p>
+<p>值得一提的是，nsight现在支持jupyter了，可以在<a href="https://pypi.org/search/?q=nsys&amp;o=-created" target="_blank">pypi.org</a>中查到： <a href="https://pypi.org/project/jupyterlab-nvidia-nsight/" target="_blank">jupyterlab-nvidia-nsight</a></p>
 
 
-<h3 class="relative group">Nsight Compute 
-    <div id="nsight-compute" class="anchor"></div>
+<h3 class="relative group">Nsight Computer 
+    <div id="nsight-computer" class="anchor"></div>
     
     <span
         class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
-            style="text-decoration-line: none !important;" href="#nsight-compute" aria-label="锚点">#</a>
+            style="text-decoration-line: none !important;" href="#nsight-computer" aria-label="锚点">#</a>
     </span>        
     
 </h3>
-<p>Nsight Compute是Nsight System中的一个工具，但更加详细和底层（甚至能看到编译信息），对应的指令是<code>ncu</code>。</p>
+<p>通过Nsight Compute工具也可以观测到</p>
+<p>通过<a href="https://docs.nvidia.com/nsight-systems/UserGuide/index.html#overview" target="_blank">官方文档</a>了解到：</p>
+<blockquote>
+<p>These metrics provide an overview of GPU efficiency over time within compute, graphics, and input/output (IO) activities such as: <br>
+IO throughputs: PCIe, NVLink, and GPU memory bandwidth <br>
+SM utilization: SMs activity, tensor core activity, instructions issued, warp occupancy, and unassigned warp slots</p>
+</blockquote>
+<p>也就是说，我们只能从SMs activity, tensor core activity, instructions issued, warp occupancy, and unassigned warp slots这几个指标去获取SM的相关利用率。</p>
+<p>此外，文档里也提到，kernel很难被优化到100%的tensor core利用率</p>
+<p>再读一下<a href="https://docs.nvidia.com/nsight-systems/UserGuide/index.html#available-metrics" target="_blank">官方文档</a>，查到了获取sm activity的命令：
+<code>ncu --metrics sm__cycles_active.avg.pct_of_peak_sustained_elapsed  ./testUti</code>，效果为：<br>
+
+    <figure>
+      <img
+        class="my-0 rounded-md"
+        loading="lazy"
+        srcset="
+        /posts/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-2/image-4_hu7666340406458207599.png 330w,
+        /posts/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-2/image-4_hu9729703272413825237.png 660w,
+        /posts/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-2/image-4_hu14415127025214252613.png 1024w,
+        /posts/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-2/image-4_hu14102888152275660541.png 2x"
+        src="/posts/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-2/image-4_hu9729703272413825237.png"
+        alt="alt text"
+      />
+      
+    </figure>
+ \</p>
+<p>此外，获取warp active的命令：
+<code>ncu --metrics sm__warps_active.avg.pct_of_peak_sustained_active ./testUtil 100</code>，效果为：<br>
+
+    <figure>
+      <img
+        class="my-0 rounded-md"
+        loading="lazy"
+        srcset="
+        /posts/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-2/image-3_hu4950157964752023754.png 330w,
+        /posts/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-2/image-3_hu10806944405090078731.png 660w,
+        /posts/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-2/image-3_hu5350851700329008687.png 1024w,
+        /posts/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-2/image-3_hu11490489679654047515.png 2x"
+        src="/posts/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-2/image-3_hu10806944405090078731.png"
+        alt="alt text"
+      />
+      
+    </figure>
+</p>
 
 
 <h3 class="relative group">DCGM 
@@ -1123,7 +1272,8 @@
     </span>        
     
 </h3>
-<p>DCGM是针对与数据中心去观测的，甚至支持DCGM Exporter工具，可以衔接上Kubernetes使用。</p>
+<p>nsys 和 ncu 这类 NVIDIA 工具通常是用于分析正在执行的程序的,通常需要附加到正在执行的进程或者通过命令行启动分析任务。这种结果通常是程序结束后的。</p>
+<p>而DCGM是针对与数据中心去观测的，甚至支持DCGM Exporter工具，可以衔接上Kubernetes使用。与nvidia-smi一样，结果可以是同时的。</p>
 <p>根据<a href="https://github.com/NVIDIA/DCGM" target="_blank">官方github</a>的方案去安装dcgm</p>
 <p>通过下述命令查看性能分析：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">sudo systemctl start nvidia-dcgm
@@ -1138,6 +1288,19 @@
 </span></span><span class="line"><span class="cl"><span class="c1"># 暴露某个程序的信息</span>
 </span></span><span class="line"><span class="cl">dcgmi stats --host 127.0.0.1 -g <span class="m">0</span> -p &lt;pid&gt; -v
 </span></span></code></pre></div><p>踩坑2：dcgm的性能分析模块(例如1002、1003)仅支持 Tesla/Quadro 级 GPU，不支持 RTX/GTX GPU，也不支持任何容器。</p>
+
+
+<h3 class="relative group">NVML 
+    <div id="nvml" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#nvml" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p>nvml（NVIDIA Management Library ）这个库也提供相应的功能，而且有python库（pynvml）。NVML已经有比较广泛的应用，比如NVIDIA-smi就是基于NVML库做的.</p>
 
           
           
@@ -1370,6 +1533,164 @@
     <span class="flex" style="cursor: pointer;">
   <span class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
     CUDA
+  </span>
+</span>
+  </span>
+  
+  
+  
+  
+</div>
+
+
+
+
+        </div>
+
+        
+      </div>
+      <div class="px-6 pt-4 pb-2">
+
+      </div>
+    </div>
+  </a>
+
+  
+  
+
+  <a href="/posts/ncsc-2024-review/" class="min-w-full">
+    
+    <div class="min-h-full border border-neutral-200 dark:border-neutral-700 border-2 rounded overflow-hidden shadow-2xl relative">
+        
+        <div class="w-full thumbnail_card_related nozoom" style="background-image:url(/posts/ncsc-2024-review/featured_hu11498168597764620021.jpg);"></div>
+        
+      
+
+      <div class="px-6 py-4">
+
+        
+        <div class="font-bold text-xl text-neutral-800 decoration-primary-500 hover:underline hover:underline-offset-2 dark:text-neutral"
+          href="/posts/ncsc-2024-review/">NCSC 2024 Review</div>
+        
+
+        <div class="text-sm text-neutral-500 dark:text-neutral-400">
+          
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+<div class="flex flex-row flex-wrap items-center">
+  
+  
+  <time datetime="2024-09-03T00:00:00&#43;00:00">2024 September 3</time><span class="px-2 text-primary-500">&middot;</span><span>39 字</span><span class="px-2 text-primary-500">&middot;</span><span title="预计阅读">1 分钟</span><span class="px-2 text-primary-500">&middot;</span><span>
+  
+  
+    
+    
+      
+      
+        
+        
+      
+      
+    
+  
+  <span id="views_posts\NCSC 2024 Review\index.md" class="animate-pulse inline-block text-transparent max-h-3 rounded-full mt-[-2px] align-middle bg-neutral-300 dark:bg-neutral-400" title="views">loading</span>
+  <span class="inline-block align-text-bottom">
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+<path fill="currentColor" d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg>
+  </span>
+
+</span>
+</span><span class="px-2 text-primary-500">&middot;</span><span>
+  
+  
+    
+    
+      
+      
+        
+        
+      
+      
+    
+  
+  <span id="likes_posts\NCSC 2024 Review\index.md"
+    class="animate-pulse inline-block text-transparent max-h-3 rounded-full mt-[-2px] align-middle bg-neutral-300 dark:bg-neutral-400"
+    title="likes">loading</span>
+  <span class="inline-block align-text-bottom">
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<path fill="currentColor" d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"/></svg>
+  </span>
+
+</span>
+</span>
+  
+
+  
+  
+</div>
+
+
+
+
+
+<div class="flex flex-row flex-wrap items-center">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <span style="margin-top:0.5rem" class="mr-2" onclick="window.open(&#34;/tags/%E7%AD%89vsync%E5%8F%91%E5%B8%83%E5%90%8E%E6%9B%B4%E6%96%B0/&#34;,'_self');">
+    <span class="flex" style="cursor: pointer;">
+  <span class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
+    等VSync发布后更新
   </span>
 </span>
   </span>

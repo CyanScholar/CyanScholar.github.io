@@ -15,6 +15,12 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>http://localhost:1313/posts/ncsc-2024-review/</loc>
+    <lastmod>2024-09-03T00:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>http://localhost:1313/posts/</loc>
     <lastmod>2024-09-03T00:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>

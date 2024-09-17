@@ -7,7 +7,7 @@ category: "博客"
 series: ["GPU&CUDA粗浅理解"]
 series_order: 1
 ---
-# 基础概念
+## 基础概念
 + GPU (Graphical Processing Unit)：硬件
 + CUDA core：处理单元，硬件
 + Tensor core：乘加融合的处理单元，硬件
@@ -18,7 +18,7 @@ series_order: 1
 + wrap：CUDA执行的基本调度单元，软/硬件结合
 
 
-## core是什么？
+### core是什么？
 
 
 以3090为例，cpu有多少个core？gpu有多少个core？
@@ -82,7 +82,7 @@ print(f"CPU 总核心（逻辑）数量: {cpu_total_cores}")
 值得留意的是，我们熟知的V100、T100、A100、H100正是Volta、Turning、Ampere、Hopper的代表产品。\
 此外，4代架构提供的Tensor Core在计算精度上的支持也是不同的，越往后提供越多的精度。
 
-## Kernel到底是什么？
+### Kernel到底是什么？
 kernel在cuda中指的是一个函数，当一个kernel被调用的时候，gpu会同时启动很多个线程来执行这一个kernel，这样就实现了并行化；\
 每个线程执行这一kernel将通过线程号来对应输入数据的下标，这样保证每个thread执行的kernel一样，但是处理的数据不一样。
 
