@@ -7,7 +7,27 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>© 2024 空青</copyright>
-    <lastBuildDate>Tue, 03 Sep 2024 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 18 Sep 2024 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>李沐交大讲座 笔记</title>
+      <link>http://localhost:1313/posts/review/%E6%9D%8E%E6%B2%90%E4%BA%A4%E5%A4%A7%E8%AE%B2%E5%BA%A7/</link>
+      <pubDate>Wed, 18 Sep 2024 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/posts/review/%E6%9D%8E%E6%B2%90%E4%BA%A4%E5%A4%A7%E8%AE%B2%E5%BA%A7/</guid>
+      <description>资源瓶颈 #以前跑训练模型就像“炼丹”，数据就是药材，算法就是丹方。</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:1313/posts/review/%E6%9D%8E%E6%B2%90%E4%BA%A4%E5%A4%A7%E8%AE%B2%E5%BA%A7/featured.png" />
+    </item>
+    
+    <item>
+      <title>NCSC 2024 Review</title>
+      <link>http://localhost:1313/posts/review/ncsc-2024/</link>
+      <pubDate>Sun, 15 Sep 2024 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/posts/review/ncsc-2024/</guid>
+      <description>简单复盘一下NCSC 2024。</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:1313/posts/review/ncsc-2024/featured.jpg" />
+    </item>
+    
     <item>
       <title>GPU &amp; CUDA 粗浅理解(二)（草稿）</title>
       <link>http://localhost:1313/posts/gpu%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/learngpu-2/</link>
@@ -29,23 +49,13 @@
     </item>
     
     <item>
-      <title>NCSC 2024 Review</title>
-      <link>http://localhost:1313/posts/ncsc-2024-review/</link>
-      <pubDate>Tue, 03 Sep 2024 00:00:00 +0000</pubDate>
-      
-      <guid>http://localhost:1313/posts/ncsc-2024-review/</guid>
-      <description>简单复盘一下NCSC 2024。</description>
-      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:1313/posts/ncsc-2024-review/featured.jpg" />
-    </item>
-    
-    <item>
       <title>写博客的意义</title>
-      <link>http://localhost:1313/posts/1725327172611-%E5%86%99%E5%8D%9A%E5%AE%A2%E7%9A%84%E6%84%8F%E4%B9%89/</link>
+      <link>http://localhost:1313/posts/%E5%86%99%E5%8D%9A%E5%AE%A2%E7%9A%84%E6%84%8F%E4%B9%89/</link>
       <pubDate>Tue, 03 Sep 2024 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/posts/1725327172611-%E5%86%99%E5%8D%9A%E5%AE%A2%E7%9A%84%E6%84%8F%E4%B9%89/</guid>
+      <guid>http://localhost:1313/posts/%E5%86%99%E5%8D%9A%E5%AE%A2%E7%9A%84%E6%84%8F%E4%B9%89/</guid>
       <description>了解更多关于我和我创建博客的初衷。</description>
-      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:1313/posts/1725327172611-%E5%86%99%E5%8D%9A%E5%AE%A2%E7%9A%84%E6%84%8F%E4%B9%89/featured.jpg" />
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:1313/posts/%E5%86%99%E5%8D%9A%E5%AE%A2%E7%9A%84%E6%84%8F%E4%B9%89/featured.jpg" />
     </item>
     
   </channel>

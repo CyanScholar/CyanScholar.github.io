@@ -1,6 +1,6 @@
 ---
 title: "NCSC 2024 Review"
-date: 2024-09-03
+date: 2024-09-15
 draft: false
 tags: ["等VSync发布后更新"]
 category: "review"

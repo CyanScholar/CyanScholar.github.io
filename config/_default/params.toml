@@ -36,8 +36,8 @@ homepageImage = "NightLight.jpg"
 
 [article]
 showDate = true
-showViews = true
-showLikes = true
+showViews = false
+showLikes = false
 showDateOnlyInArticle = false
 showDateUpdated = false
 showAuthor = true

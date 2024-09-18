@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>讲座 on CyanScholar</title>
+    <link>http://localhost:1313/tags/%E8%AE%B2%E5%BA%A7/</link>
+    <description>Recent content in 讲座 on CyanScholar</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <copyright>© 2024 空青</copyright>
+    <lastBuildDate>Wed, 18 Sep 2024 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/%E8%AE%B2%E5%BA%A7/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>李沐交大讲座</title>
+      <link>http://localhost:1313/posts/review/%E6%9D%8E%E6%B2%90%E4%BA%A4%E5%A4%A7%E6%8A%A5%E5%91%8A/</link>
+      <pubDate>Wed, 18 Sep 2024 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/posts/review/%E6%9D%8E%E6%B2%90%E4%BA%A4%E5%A4%A7%E6%8A%A5%E5%91%8A/</guid>
+      <description>以前跑训练模型就像“炼丹”，数据就是药材，算法就是丹方。 带宽资源很难控制，多卡更近是大趋势（一般用水冷，能带走更大热量），因为光纤多一米都会对性能有影响（光速其实挺慢的，跑一米要3ns） 显卡上划分一片内存后，其实就放不下太多其它的。这块的工艺可能会受限，以后的单卡模型的尺寸可能也因此被固定。 算力主要就是看工艺那些。当尺寸足够大的时候，供电可能反而会成为问题，一个大的数据中心，说不定需要一个造电厂来供应。 对于知识库的数据，规模达到10T~50T可能就差不多了。人类的历史数据和经验，虽然规模比这大的多，但其密度、质量未必会高很多。所以数据规模达到一定程度后再扩大，也未必会提升很多。 ｜ 突发奇想！数据质量真的越高越好吗？稀疏性的会不会在大规模下会不会有奇效？ models are good or good enough？ language gets good，80～85分 audio good enough，70－80分 video usable for special application，50分，还有很多空间 multimodal，多模态是未来的趋势</description>
+      
+    </item>
+    
+  </channel>
+</rss>

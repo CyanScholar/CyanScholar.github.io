@@ -15,7 +15,7 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>http://localhost:1313/posts/ncsc-2024-review/</loc>
+    <loc>http://localhost:1313/posts/review/ncsc-2024/</loc>
     <lastmod>2024-09-03T00:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
@@ -43,7 +43,7 @@
     />
   </url>
   <url>
-    <loc>http://localhost:1313/posts/1725327172611-%E5%86%99%E5%8D%9A%E5%AE%A2%E7%9A%84%E6%84%8F%E4%B9%89/</loc>
+    <loc>http://localhost:1313/posts/%E5%86%99%E5%8D%9A%E5%AE%A2%E7%9A%84%E6%84%8F%E4%B9%89/</loc>
     <lastmod>2024-09-03T00:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
