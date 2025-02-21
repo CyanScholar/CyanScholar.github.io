@@ -1,7 +1,7 @@
 ---
 title: "LLM推理过程的指标收集方式（总结）"
-date: 2024-02-21
-draft: true
+date: 2025-02-21
+draft: false
 tags: ["LLM","推理"]
 category: "博客"
 series: ["LLM推理"]
