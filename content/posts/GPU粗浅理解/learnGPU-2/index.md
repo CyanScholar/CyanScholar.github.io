@@ -8,7 +8,7 @@ series: ["GPU&CUDA粗浅理解"]
 series_order: 2
 ---
 
-## 利用率？
+## GPU的利用率到底是怎么回事？
 关于gpu利用率，很多人都存在一些误区。\
 硬件的利用率一般默认为运行时间占比，但这里有个问题，我们需要去区分是gpu-level还是core-level的利用率呢？\
 对于gpu-level，但凡有一个core在使用，也可以代表gpu也在被使用啊；对于core-level，那每个core就需要分开来讨论了。
@@ -70,16 +70,22 @@ nvcc -o testUtil testUtil.cu
 编译后，就可以通过设置my_delay的值来控制这个程序在GPU的活动时间，在3090机器上，`./delay_program 100`可以达到100%的utilization，但是`./delay_program 1000`就只有44%的utilization.
 ![image-2.png](imag2.png)
 
-### 那如何获取空间利用率呢？
+### sm activity和sm occupation所指的利用率是什么？
 
-目前国内几乎没怎么去研究这个问题，通过调研[NVIDIA forum](https://forums.developer.nvidia.com/search?q=sm%20occupation)了解到几个工具或许能够用上：pytorch profile、nsight 和nvidia dcgm。考虑到硬件的支持，pytorch profile我不太看好，尤其是对于LLM这种有大量操作的应用来说，这种方案的加载速度很慢。后面的两个方案都可以用。
+目前国内很少有讨论这个问题，通过调研[NVIDIA forum](https://forums.developer.nvidia.com/search?q=sm%20occupation)了解到几个工具或许能够用上：pytorch profile、nsight 和nvidia dcgm。考虑到硬件的支持，pytorch profile我不太看好，尤其是对于LLM这种有大量操作的应用来说，这种方案的加载速度很慢。后面的两个方案都可以用。
 
 在指标的选择上，可以使用SM occupation（注意不是SM utilization，这个其实就是nvidia-smi dmon看到的利用率），一个SM包含了多个core，而且SM是CUDA最基本的计算模块，所以这个指标可以代表空间利用率。
 
 
+### MFU和HFU所指的利用率是什么？
+
+mfu，其实就是每个batch理论上所需要的浮点计算量/每个batch需要的时间/GPU理论峰值浮点计算速度。
+
+## 观察GPU的工具
+
 ### Nsight System
 
-### Nsight profile
+#### Nsight profile
 
 注意概念上的一个定义：<u>profile是对程序而言的，不是对GPU集群。</u>
 
@@ -170,7 +176,7 @@ if __name__ == '__main__':
 
 值得一提的是，nsight现在支持jupyter了，可以在[pypi.org](https://pypi.org/search/?q=nsys&o=-created)中查到： [jupyterlab-nvidia-nsight](https://pypi.org/project/jupyterlab-nvidia-nsight/)
 
-### Nsight Computer
+#### Nsight Computer
 通过Nsight Compute工具也可以观测到
 
 通过[官方文档](https://docs.nvidia.com/nsight-systems/UserGuide/index.html#overview)了解到：
